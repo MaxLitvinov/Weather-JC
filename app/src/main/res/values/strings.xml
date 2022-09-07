@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Weather-JC</string>
+
+    <!-- Home page -->
+    <string name="home_page_city">City: %s</string>
+    <string name="home_page_day_night_temperature_values">%1$s / %2$s</string>
+    <string name="home_page_no_data">No data</string>
+    <string name="home_page_temperature_value">%s°C</string>
+    <string name="home_page_weather">%s°C</string>
+
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_title_error_occurred">Error occurred</string>
 </resources>
