@@ -43,11 +43,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jc.weather.R
 import com.jc.weather.pages.home.model.DayForecast
-import com.jc.weather.pages.home.model.WeatherUiModel
+import com.jc.weather.pages.home.model.WeatherModel
 import com.jc.weather.ui.theme.WeatherJCTheme
 
 @Composable
-fun HomePage(viewModel: HomePageViewModel = viewModel()) {
+fun HomePage(viewModel: HomePageViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -112,7 +112,7 @@ private fun ProgressScreen() {
 }
 
 @Composable
-private fun WeatherScreen(model: WeatherUiModel) = with(model) {
+private fun WeatherScreen(model: WeatherModel) = with(model) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -158,8 +158,8 @@ private fun weekForecast(weekForecast: List<DayForecast>) =
         weekForecast.map { dayForecast ->
             val datNightTemp = stringResource(
                 R.string.home_page_day_night_temperature_values,
-                getDayTemperature(dayForecast.dayTemp, dayTempMaxLength),
-                getNightTemperature(dayForecast.nightTemp, nightTempMaxLength)
+                getDayTemperature(dayForecast.day, dayTempMaxLength),
+                getNightTemperature(dayForecast.night, nightTempMaxLength)
             )
             DayText(dayForecast.dayName, datNightTemp)
         }
@@ -169,17 +169,17 @@ private fun getDayNightTemperatureMaxLengths(weekForecast: List<DayForecast>): P
     var dayTempMaxStringLength = 0
     var nightTempMaxStringLength = 0
     weekForecast.map { dayForecast ->
-        val dayTempLength = dayForecast.dayTemp.toString().length
+        val dayTempLength = dayForecast.day.toString().length
         dayTempMaxStringLength = Math.max(dayTempMaxStringLength, dayTempLength)
 
-        val nightTempLength = dayForecast.nightTemp.toString().length
+        val nightTempLength = dayForecast.night.toString().length
         nightTempMaxStringLength = Math.max(dayTempMaxStringLength, nightTempLength)
     }
     return Pair(dayTempMaxStringLength, nightTempMaxStringLength)
 }
 
 @Composable
-private fun getDayTemperature(temperature: Float, maxStringLength: Int): String {
+private fun getDayTemperature(temperature: Double, maxStringLength: Int): String {
     val currentDayTempLength = temperature.toString().length
     var dayValue: String = stringResource(R.string.home_page_temperature_value, temperature)
     if (currentDayTempLength < maxStringLength) {
@@ -192,7 +192,7 @@ private fun getDayTemperature(temperature: Float, maxStringLength: Int): String 
 }
 
 @Composable
-private fun getNightTemperature(temperature: Float, maxStringLength: Int): String {
+private fun getNightTemperature(temperature: Double, maxStringLength: Int): String {
     val currentNightTempLength = temperature.toString().length
     var nightValue: String =
         stringResource(R.string.home_page_temperature_value, temperature)
@@ -285,7 +285,7 @@ private fun ErrorDialog(message: String) {
 @Composable
 fun HomePagePreview() {
     WeatherJCTheme {
-        HomePage()
+        HomePage(viewModel())
     }
 }
 
@@ -308,18 +308,19 @@ private fun ProgressScreenPreview() {
 @Preview(name = "Weather screen preview", showBackground = true)
 @Composable
 private fun WeatherScreenPreview() {
-    val fakeModel = WeatherUiModel(
+    val fakeModel = WeatherModel(
         city = "Kharkiv",
         temperature = "20",
         weatherDescription = "Rainy",
         weekForecast = listOf(
-            DayForecast("Monday", 18F, 7F),
-            DayForecast("Tuesday", 21F, 13F),
-            DayForecast("Wednesday", 19F, 12F),
-            DayForecast("Thursday", 20F, 12F),
-            DayForecast("Friday", 21F, 14F),
-            DayForecast("Saturday", 22F, 14F),
-            DayForecast("Sunday", 14F, 9F)
+            DayForecast("09.09 September", 0.0, 15.83, 0.0, 10.67, 0.0, 0.0),
+            DayForecast("10.09 September", 0.0, 7.61, 0.0, 9.52, 0.0, 0.0),
+            DayForecast("11.09 September", 0.0, 9.14, 0.0, 10.8, 0.0, 0.0),
+            DayForecast("12.09 September", 0.0, 14.91, 0.0, 13.3, 0.0, 0.0),
+            DayForecast("13.09 September", 0.0, 11.5, 0.0, 9.53, 0.0, 0.0),
+            DayForecast("14.09 September", 0.0, 10.99, 0.0, 10.41, 0.0, 0.0),
+            DayForecast("15.09 September", 0.0, 19.24, 0.0, 12.59, 0.0, 0.0),
+            DayForecast("16.09 September", 0.0, 14.89, 0.0, 14.28, 0.0, 0.0)
         )
     )
     WeatherJCTheme {

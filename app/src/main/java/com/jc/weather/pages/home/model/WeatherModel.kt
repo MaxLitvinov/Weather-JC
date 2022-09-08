@@ -1,6 +1,6 @@
 package com.jc.weather.pages.home.model
 
-data class WeatherUiModel(
+data class WeatherModel(
     var city: String = "",
     var temperature: String = "",
     var weatherDescription: String? = null,
@@ -9,6 +9,10 @@ data class WeatherUiModel(
 
 data class DayForecast(
     val dayName: String,
-    val dayTemp: Float,
-    val nightTemp: Float
+    val morning: Double,
+    val day: Double,
+    val evening: Double,
+    val night: Double,
+    val min: Double,
+    val max: Double
 )
