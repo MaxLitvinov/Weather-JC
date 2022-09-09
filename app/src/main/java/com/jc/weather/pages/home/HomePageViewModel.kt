@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomePageViewModel @Inject constructor(
-    private val homePageInteractor: HomePageInteractor
+    private val interactor: HomePageInteractor
 ) : ViewModel() {
 
     companion object {
@@ -27,10 +27,10 @@ class HomePageViewModel @Inject constructor(
         fetchWeather()
     }
 
-    fun fetchWeather() {
+    private fun fetchWeather() {
         _uiState.value = WeatherUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            _uiState.value = homePageInteractor.fetchWeather(CHERNIHIV_LAT, CHERNIHIV_LON)
+            _uiState.value = interactor.fetchWeather(CHERNIHIV_LAT, CHERNIHIV_LON)
         }
     }
 

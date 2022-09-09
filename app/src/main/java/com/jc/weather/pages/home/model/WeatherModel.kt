@@ -1,10 +1,11 @@
 package com.jc.weather.pages.home.model
 
 data class WeatherModel(
-    var city: String = "",
-    var temperature: String = "",
-    var weatherDescription: String? = null,
-    var weekForecast: List<DayForecast> = emptyList()
+    var city: String,
+    var iconUrl: String,
+    var temperature: String,
+    var weatherDescription: String,
+    var dailyForecasts: List<DayForecast>
 )
 
 data class DayForecast(

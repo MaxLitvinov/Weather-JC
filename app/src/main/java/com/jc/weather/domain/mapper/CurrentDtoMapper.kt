@@ -1,7 +1,7 @@
 package com.jc.weather.domain.mapper
 
 import com.jc.weather.data.CurrentDto
-import com.jc.weather.domain.model.CurrentDomainModel
+import com.jc.weather.domain.model.CurrentWeatherDomainModel
 import javax.inject.Inject
 
 class CurrentDtoMapper @Inject constructor(
@@ -9,24 +9,24 @@ class CurrentDtoMapper @Inject constructor(
 ) {
 
     fun mapToDomainModel(dto: CurrentDto) = with(dto) {
-        CurrentDomainModel(
+        CurrentWeatherDomainModel(
             currentTime = currentTime,
-            sunrise = sunrise,
-            sunset = sunset,
+            sunriseTime = sunriseTime,
+            sunsetTime = sunsetTime,
             temperature = temperature,
             feelsLike = feelsLike,
             pressure = pressure,
             humidity = humidity,
             dewPoint = dewPoint,
             clouds = clouds,
-            uvi = uvi,
+            uvIndex = uvIndex,
             visibility = visibility,
             windDeg = windDeg,
             windGust = windGust,
             windSpeed = windSpeed,
             rain = rain,
             snow = snow,
-            weather = weatherDetailsDtoMapper.mapToDomainModel(weather.first())
+            weatherDetails = weatherDetailsDtoMapper.mapToDomainModel(weather.first())
         )
     }
 }

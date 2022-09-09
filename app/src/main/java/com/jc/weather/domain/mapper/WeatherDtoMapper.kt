@@ -11,12 +11,12 @@ class WeatherDtoMapper @Inject constructor(
 
     fun mapToDomainModel(dto: WeatherDto) = with(dto) {
         WeatherDomainModel(
-            lat = lat,
-            lon = lon,
+            latitude = latitude,
+            longitude = longitude,
             timezone = timezone,
-            timezone_offset = timezone_offset,
-            current = currentDtoMapper.mapToDomainModel(current),
-            daily = daily.map(dailyDtoMapper::mapToDomainModel),
+            timezoneOffset = timezoneOffset,
+            currentWeather = currentDtoMapper.mapToDomainModel(current),
+            dailyForecasts = dailyForecasts.map(dailyDtoMapper::mapToDomainModel),
         )
     }
 }

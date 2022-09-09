@@ -9,8 +9,8 @@ class WeatherDetailsDtoMapper @Inject constructor() {
     fun mapToDomainModel(dto: WeatherDetailsDto) = with(dto) {
         WeatherDetailsDomainModel(
             id = id,
-            main = main,
-            description = description,
+            mainDescription = mainDescription,
+            detailedDescription = description,
             icon = icon
         )
     }

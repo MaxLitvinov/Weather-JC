@@ -10,10 +10,15 @@ class WeatherDomainModelMapper @Inject constructor(
 
     fun mapToUiModel(domainModel: WeatherDomainModel) = with(domainModel) {
         WeatherModel(
-            city = "Unknown city",
-            temperature = current.temperature.toString(),
-            weatherDescription = current.weather.description,
-            weekForecast = daily.map(dailyDomainModelMapper::mapToUiModel)
+            city = "Chernihiv", // TODO: City name stub
+            iconUrl = getIconUrl(currentWeather.weatherDetails.icon),
+            temperature = currentWeather.temperature.toString(),
+            weatherDescription = currentWeather.weatherDetails.detailedDescription
+                .replaceFirstChar { it.titlecase() },
+            dailyForecasts = dailyForecasts.map(dailyDomainModelMapper::mapToUiModel)
         )
     }
+
+    private fun getIconUrl(iconName: String): String =
+        "https://openweathermap.org/img/wn/${iconName}@2x.png"
 }

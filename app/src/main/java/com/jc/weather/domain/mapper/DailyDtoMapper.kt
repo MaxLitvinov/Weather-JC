@@ -12,10 +12,10 @@ class DailyDtoMapper @Inject constructor(
     fun mapToDomainModel(dto: DailyDto) = with(dto) {
         DailyDomainModel(
             time = time,
-            sunrise = sunrise,
-            sunset = sunset,
-            moonrise = moonrise,
-            moonset = moonset,
+            sunriseTime = sunriseTime,
+            sunsetTime = sunsetTime,
+            moonriseTime = moonriseTime,
+            moonsetTime = moonsetTime,
             moonPhase = moonPhase,
             temperature = temperatureDtoMapper.mapToDomainModel(temperature),
             feelsLike = feelsLikeDtoMapper.mapToDomainModel(feelsLike),
@@ -26,7 +26,7 @@ class DailyDtoMapper @Inject constructor(
             windDeg = windDeg,
             windGust = windGust,
             clouds = clouds,
-            uvi = uvi,
+            uvIndex = uvIndex,
             pop = pop,
             rain = rain,
             snow = snow
