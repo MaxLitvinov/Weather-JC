@@ -78,9 +78,9 @@ data class CurrentDto(
     @SerializedName("wind_speed")
     val windSpeed: Double,
     @SerializedName("rain")
-    val rain: Any?,
+    val rain: RainDto?,
     @SerializedName("snow")
-    val snow: Any?,
+    val snow: SnowDto?,
     @SerializedName("weather")
     val weather: List<WeatherDetailsDto>
 )
@@ -162,9 +162,9 @@ data class DailyDto(
     @SerializedName("pop")
     val pop: Double,
     @SerializedName("rain")
-    val rain: Any?,
+    val rain: Double?,
     @SerializedName("snow")
-    val snow: Any?,
+    val snow: Double?,
     @SerializedName("weather")
     val weather: List<WeatherDetailsDto>
 )
@@ -217,4 +217,24 @@ data class FeelsLikeDto(
     val evening: Double,
     @SerializedName("morn")
     val morning: Double
+)
+
+/**
+ * Rain volume, mm
+ *
+ * @param lastHourVolume (where available) Rain volume for last hour, mm
+ */
+data class RainDto(
+    @SerializedName("1h")
+    val lastHourVolume: Double
+)
+
+/**
+ * Snow volume, mm
+ *
+ * @param lastHourVolume (where available) Snow volume for last hour, mm
+ */
+data class SnowDto(
+    @SerializedName("1h")
+    val lastHourVolume: Double
 )

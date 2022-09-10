@@ -17,10 +17,10 @@ class HomePageInteractor @Inject constructor(
         try {
             val weatherDomainModel = repository.fetchWeather("$lat", "$lon")
             val weatherUiModel = mapper.mapToUiModel(weatherDomainModel)
-            HomePageViewModel.WeatherUiState.Loaded(weatherUiModel)
+            HomePageViewModel.WeatherUiState.Success(weatherUiModel)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            HomePageViewModel.WeatherUiState.Error(
+            HomePageViewModel.WeatherUiState.Failure(
                 ex.message ?: context.getString(R.string.something_went_wrong)
             )
         }

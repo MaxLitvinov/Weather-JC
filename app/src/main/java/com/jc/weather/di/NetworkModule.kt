@@ -1,6 +1,6 @@
 package com.jc.weather.di
 
-import com.jc.weather.data.WeatherApi
+import com.jc.weather.data.OpenWeatherMapApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,13 +22,13 @@ class NetworkModule {
     }
 
     @Provides
-    fun provideWeatherApiService(): WeatherApi =
+    fun provideWeatherApiService(): OpenWeatherMapApi =
         Retrofit.Builder()
             .client(getOkHttpClient())
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(WeatherApi::class.java)
+            .create(OpenWeatherMapApi::class.java)
 
     private fun getOkHttpClient() =
         OkHttpClient.Builder()

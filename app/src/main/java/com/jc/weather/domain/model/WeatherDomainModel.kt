@@ -24,8 +24,8 @@ data class CurrentWeatherDomainModel(
     val windDeg: Int,
     val windGust: Double,
     val windSpeed: Double,
-    val rain: Any?,
-    val snow: Any?,
+    val lastHourRainVolume: Double?,
+    val lastHourSnowVolume: Double? ,
     val weatherDetails: WeatherDetailsDomainModel
 )
 

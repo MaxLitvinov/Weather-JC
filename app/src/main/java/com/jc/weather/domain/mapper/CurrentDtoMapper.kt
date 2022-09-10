@@ -24,8 +24,8 @@ class CurrentDtoMapper @Inject constructor(
             windDeg = windDeg,
             windGust = windGust,
             windSpeed = windSpeed,
-            rain = rain,
-            snow = snow,
+            lastHourRainVolume = rain?.lastHourVolume,
+            lastHourSnowVolume = snow?.lastHourVolume,
             weatherDetails = weatherDetailsDtoMapper.mapToDomainModel(weather.first())
         )
     }

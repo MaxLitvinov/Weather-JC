@@ -14,9 +14,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.jc.weather.R
-import com.jc.weather.pages.home.ui.EmptyScreen
 import com.jc.weather.pages.home.ui.ErrorDialog
-import com.jc.weather.pages.home.ui.ProgressScreen
+import com.jc.weather.pages.home.ui.ProgressDialog
 import com.jc.weather.pages.home.ui.WeatherScreen
 
 @Composable
@@ -37,10 +36,9 @@ fun HomePage(viewModel: HomePageViewModel) {
             .verticalScroll(state = rememberScrollState())
     ) {
         when (val uiState = viewModel.uiState.collectAsState().value) {
-            is HomePageViewModel.WeatherUiState.Empty -> EmptyScreen()
-            is HomePageViewModel.WeatherUiState.Loading -> ProgressScreen()
-            is HomePageViewModel.WeatherUiState.Loaded -> WeatherScreen(uiState.data)
-            is HomePageViewModel.WeatherUiState.Error -> ErrorDialog(uiState.message)
+            is HomePageViewModel.WeatherUiState.Loading -> ProgressDialog()
+            is HomePageViewModel.WeatherUiState.Success -> WeatherScreen(uiState.data)
+            is HomePageViewModel.WeatherUiState.Failure -> ErrorDialog(uiState.message)
         }
     }
 }
