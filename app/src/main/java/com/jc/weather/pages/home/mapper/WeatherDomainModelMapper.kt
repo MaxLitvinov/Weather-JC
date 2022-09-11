@@ -1,6 +1,6 @@
 package com.jc.weather.pages.home.mapper
 
-import com.jc.weather.domain.model.WeatherDomainModel
+import com.jc.weather.domain.open_weather_map.model.WeatherDomainModel
 import com.jc.weather.pages.home.model.WeatherModel
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ class WeatherDomainModelMapper @Inject constructor(
 
     fun mapToUiModel(domainModel: WeatherDomainModel) = with(domainModel) {
         WeatherModel(
-            city = "Chernihiv", // TODO: City name stub
+            city = "",
             iconUrl = getIconUrl(currentWeather.weatherDetails.icon),
             temperature = currentWeather.temperature.toString(),
             weatherDescription = currentWeather.weatherDetails.detailedDescription
@@ -20,5 +20,5 @@ class WeatherDomainModelMapper @Inject constructor(
     }
 
     private fun getIconUrl(iconName: String): String =
-        "https://openweathermap.org/img/wn/${iconName}@2x.png"
+        "https://openweathermap.org/img/wn/$iconName@2x.png"
 }

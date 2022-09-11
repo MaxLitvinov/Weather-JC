@@ -11,5 +11,7 @@
     <string name="home_page_day_night_temperature_values">%1$s / %2$s</string>
     <string name="home_page_no_data">No data</string>
     <string name="home_page_temperature_value">%s°C</string>
+    <string name="home_page_today">Today</string>
+    <string name="home_page_tomorrow">Tomorrow</string>
     <string name="home_page_weather">%s°C</string>
 </resources>

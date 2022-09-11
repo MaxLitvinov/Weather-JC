@@ -14,12 +14,6 @@ class HomePageViewModel @Inject constructor(
     private val interactor: HomePageInteractor
 ) : ViewModel() {
 
-    companion object {
-
-        private const val CHERNIHIV_LAT: Double = 51.5007564
-        private const val CHERNIHIV_LON: Double = 31.2944966
-    }
-
     private val _uiState = MutableStateFlow<WeatherUiState>(WeatherUiState.Loading)
     val uiState: StateFlow<WeatherUiState> = _uiState
 
@@ -29,7 +23,7 @@ class HomePageViewModel @Inject constructor(
 
     private fun fetchWeather() {
         viewModelScope.launch(Dispatchers.IO) {
-            _uiState.value = interactor.fetchWeather(CHERNIHIV_LAT, CHERNIHIV_LON)
+            _uiState.value = interactor.fetchWeather()
         }
     }
 

@@ -9,7 +9,7 @@ data class WeatherModel(
 )
 
 data class DayForecast(
-    val dayName: String,
+    var dayName: String,
     val morning: Double,
     val day: Double,
     val evening: Double,

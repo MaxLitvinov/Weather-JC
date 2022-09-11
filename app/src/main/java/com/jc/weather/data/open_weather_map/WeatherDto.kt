@@ -1,4 +1,4 @@
-package com.jc.weather.data
+package com.jc.weather.data.open_weather_map
 
 import com.google.gson.annotations.SerializedName
 

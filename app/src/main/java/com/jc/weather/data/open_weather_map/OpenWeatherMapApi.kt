@@ -1,9 +1,8 @@
-package com.jc.weather.data
+package com.jc.weather.data.open_weather_map
 
+import com.jc.weather.BuildConfig
 import retrofit2.http.GET
 import retrofit2.http.Query
-
-private const val APP_ID = "978539e18a215484b0146ed80b932145"
 
 interface OpenWeatherMapApi {
 
@@ -11,6 +10,6 @@ interface OpenWeatherMapApi {
     suspend fun fetchWeather(
         @Query("lat") lat: String,
         @Query("lon") lon: String,
-        @Query("appid") appId: String = APP_ID
+        @Query("appid") appId: String = BuildConfig.OPEN_WEATHER_MAP_APP_ID
     ): WeatherDto
 }

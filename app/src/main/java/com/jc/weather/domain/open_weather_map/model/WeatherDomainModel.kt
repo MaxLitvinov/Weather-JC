@@ -1,4 +1,4 @@
-package com.jc.weather.domain.model
+package com.jc.weather.domain.open_weather_map.model
 
 data class WeatherDomainModel(
     val latitude: Double,
@@ -25,7 +25,7 @@ data class CurrentWeatherDomainModel(
     val windGust: Double,
     val windSpeed: Double,
     val lastHourRainVolume: Double?,
-    val lastHourSnowVolume: Double? ,
+    val lastHourSnowVolume: Double?,
     val weatherDetails: WeatherDetailsDomainModel
 )
 
