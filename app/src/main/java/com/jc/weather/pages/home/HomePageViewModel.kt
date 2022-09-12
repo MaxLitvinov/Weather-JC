@@ -17,11 +17,7 @@ class HomePageViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<WeatherUiState>(WeatherUiState.Loading)
     val uiState: StateFlow<WeatherUiState> = _uiState
 
-    init {
-        fetchWeather()
-    }
-
-    private fun fetchWeather() {
+    fun fetchWeather() {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = interactor.fetchWeather()
         }
@@ -31,7 +27,7 @@ class HomePageViewModel @Inject constructor(
 
         object Loading : WeatherUiState()
 
-        data class Success(val data: WeatherModel) : WeatherUiState()
+        data class Success(val weatherModel: WeatherModel) : WeatherUiState()
 
         data class Failure(val message: String) : WeatherUiState()
     }

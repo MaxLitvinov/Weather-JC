@@ -7,7 +7,6 @@ import javax.inject.Inject
 class IpDtoMapper @Inject constructor() {
 
     fun mapToDomain(dto: IpDto) = with(dto) {
-
         IpDomainModel(
             query = query,
             status = status,

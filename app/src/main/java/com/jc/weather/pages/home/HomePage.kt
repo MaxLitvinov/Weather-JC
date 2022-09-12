@@ -35,9 +35,10 @@ fun HomePage(viewModel: HomePageViewModel) {
             )
             .verticalScroll(state = rememberScrollState())
     ) {
+        viewModel.fetchWeather()
         when (val uiState = viewModel.uiState.collectAsState().value) {
             is HomePageViewModel.WeatherUiState.Loading -> ProgressDialog()
-            is HomePageViewModel.WeatherUiState.Success -> WeatherScreen(uiState.data)
+            is HomePageViewModel.WeatherUiState.Success -> WeatherScreen(uiState.weatherModel)
             is HomePageViewModel.WeatherUiState.Failure -> ErrorDialog(uiState.message)
         }
     }
