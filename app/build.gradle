@@ -6,6 +6,11 @@ plugins {
     id 'org.jlleitschuh.gradle.ktlint'
 }
 
+int appPhase = 1
+int feature = 0
+int fixes = 0
+def buildVersion = String.format("%d.%d.%d", appPhase, feature, fixes)
+
 android {
     compileSdk 33
 
@@ -14,7 +19,7 @@ android {
         minSdk 26
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName buildVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -24,39 +29,64 @@ android {
 
     buildTypes {
         debug {
+            manifestPlaceholders = [appNameSuffix: "_debug"]
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+
             buildConfigField "String", "BASE_URL_OPEN_WEATHER_MAP", "\"https://api.openweathermap.org/\""
             buildConfigField "String", "OPEN_WEATHER_MAP_APP_ID", "\"978539e18a215484b0146ed80b932145\""
 
             buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
         }
         release {
+            manifestPlaceholders = [appNameSuffix: ""]
+
             buildConfigField "String", "BASE_URL_OPEN_WEATHER_MAP", "\"https://api.openweathermap.org/\""
             buildConfigField "String", "OPEN_WEATHER_MAP_APP_ID", "\"978539e18a215484b0146ed80b932145\""
 
             buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
 
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
     buildFeatures {
         compose true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
+
     packagingOptions {
         pickFirst 'META-INF/LICENSE.md'
         pickFirst 'META-INF/LICENSE-notice.md'
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        renameApk(variant)
+    }
+}
+
+def renameApk(variant) {
+    variant.outputs.each { output ->
+        variant.outputs.all {
+            def versionName = variant.versionName
+            outputFileName = "Weather-JC_v${versionName}.apk"
         }
     }
 }
