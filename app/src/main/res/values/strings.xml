@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Weather-JC</string>
+    <string name="app_name_debug">Weather-JC Debug</string>
+
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_title_error_occurred">Error occurred</string>
+
+    <string name="something_went_wrong">Something went wrong.\nPlease, check your internet connection or try again later.</string>
+
+    <!-- Home page -->
+    <string name="home_page_city">City: %s</string>
+    <string name="home_page_day_night_temperature_values">%1$s / %2$s</string>
+    <string name="home_page_no_data">No data</string>
+    <string name="home_page_temperature_value">%s°C</string>
+    <string name="home_page_today">Today</string>
+    <string name="home_page_tomorrow">Tomorrow</string>
+    <string name="home_page_weather">%s°C</string>
 </resources>
