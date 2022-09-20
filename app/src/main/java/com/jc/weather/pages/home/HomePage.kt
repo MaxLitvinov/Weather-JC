@@ -14,33 +14,35 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.jc.weather.R
+import com.jc.weather.pages.home.model.DayForecast
 import com.jc.weather.pages.home.ui.ErrorDialog
 import com.jc.weather.pages.home.ui.ProgressDialog
 import com.jc.weather.pages.home.ui.WeatherScreen
 
 @Composable
-fun HomePage(viewModel: HomePageViewModel) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        colorResource(R.color.home_page_blue),
-                        colorResource(R.color.home_page_purple)
-                    ),
-                    startY = 0F,
-                    endY = getDisplayHeight()
-                )
+fun HomePage(
+    viewModel: HomePageViewModel,
+    onDayForecastClick: (DayForecast) -> Unit,
+) = Column(
+    modifier = Modifier
+        .fillMaxSize()
+        .background(
+            Brush.verticalGradient(
+                colors = listOf(
+                    colorResource(R.color.home_page_blue),
+                    colorResource(R.color.home_page_purple)
+                ),
+                startY = 0F,
+                endY = getDisplayHeight()
             )
-            .verticalScroll(state = rememberScrollState())
-    ) {
-        viewModel.fetchWeather()
-        when (val uiState = viewModel.uiState.collectAsState().value) {
-            is HomePageViewModel.WeatherUiState.Loading -> ProgressDialog()
-            is HomePageViewModel.WeatherUiState.Success -> WeatherScreen(uiState.weatherModel)
-            is HomePageViewModel.WeatherUiState.Failure -> ErrorDialog(uiState.message)
-        }
+        )
+        .verticalScroll(state = rememberScrollState())
+) {
+    viewModel.fetchWeather()
+    when (val uiState = viewModel.uiState.collectAsState().value) {
+        is HomePageViewModel.UiState.Loading -> ProgressDialog()
+        is HomePageViewModel.UiState.Success -> WeatherScreen(uiState.weatherModel, onDayForecastClick)
+        is HomePageViewModel.UiState.Failure -> ErrorDialog(uiState.message)
     }
 }
 

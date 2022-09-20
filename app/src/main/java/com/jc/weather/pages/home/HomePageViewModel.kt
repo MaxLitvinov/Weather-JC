@@ -4,18 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jc.weather.pages.home.core.HomePageInteractor
 import com.jc.weather.pages.home.model.WeatherModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class HomePageViewModel @Inject constructor(
-    private val interactor: HomePageInteractor
+    private val interactor: HomePageInteractor,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<WeatherUiState>(WeatherUiState.Loading)
-    val uiState: StateFlow<WeatherUiState> = _uiState
+    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    val uiState: StateFlow<UiState> = _uiState
 
     fun fetchWeather() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -23,12 +25,12 @@ class HomePageViewModel @Inject constructor(
         }
     }
 
-    sealed class WeatherUiState {
+    sealed class UiState {
 
-        object Loading : WeatherUiState()
+        object Loading : UiState()
 
-        data class Success(val weatherModel: WeatherModel) : WeatherUiState()
+        data class Success(val weatherModel: WeatherModel) : UiState()
 
-        data class Failure(val message: String) : WeatherUiState()
+        data class Failure(val message: String) : UiState()
     }
 }

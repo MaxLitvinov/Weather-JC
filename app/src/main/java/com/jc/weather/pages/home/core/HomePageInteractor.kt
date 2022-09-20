@@ -23,7 +23,7 @@ class HomePageInteractor @Inject constructor(
         private const val ONE_DAY_IN_SECONDS = 86_400
     }
 
-    suspend fun fetchWeather(): HomePageViewModel.WeatherUiState =
+    suspend fun fetchWeather(): HomePageViewModel.UiState =
         try {
             val locationModel = fetchLocation()
             val weatherDomainModel = weatherRepository.fetchWeather("${locationModel.lat}", "${locationModel.lon}")
@@ -33,10 +33,10 @@ class HomePageInteractor @Inject constructor(
                 val currentDayTime = weatherDomainModel.currentWeather.currentTime + weatherDomainModel.timezoneOffset
                 dailyForecasts = transformDayNames(currentDayTime, dailyForecasts)
             }
-            HomePageViewModel.WeatherUiState.Success(weatherUiModel)
+            HomePageViewModel.UiState.Success(weatherUiModel)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            HomePageViewModel.WeatherUiState.Failure(
+            HomePageViewModel.UiState.Failure(
                 ex.message ?: context.getString(R.string.something_went_wrong)
             )
         }

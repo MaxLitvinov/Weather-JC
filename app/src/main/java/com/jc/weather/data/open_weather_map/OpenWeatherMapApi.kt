@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface OpenWeatherMapApi {
 
-    @GET("data/2.5/onecall?exclude=minutely,hourly,alerts&lang=en&units=metric")
+    @GET("data/2.5/onecall?&lang=en&units=metric")
     suspend fun fetchWeather(
         @Query("lat") lat: String,
         @Query("lon") lon: String,

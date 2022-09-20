@@ -11,14 +11,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.jc.weather.ui.theme.WeatherJCTheme
 
+// TODO: Move to general place
 @Composable
 fun ProgressDialog() {
     Dialog(
+        onDismissRequest = { /* Do nothing */ },
         properties = DialogProperties(
             dismissOnBackPress = false,
             dismissOnClickOutside = false
-        ),
-        onDismissRequest = { /* Do nothing */ }
+        )
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))

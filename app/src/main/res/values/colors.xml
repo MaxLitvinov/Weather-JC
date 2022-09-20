@@ -10,4 +10,7 @@
 
     <color name="home_page_blue">#4776E6</color>
     <color name="home_page_purple">#8E54E9</color>
+
+    <color name="weather_details_page_expanded_item_background">#0DFFFFFF</color>
+    <color name="weather_details_page_expanded_item_border">#26FFFFFF</color>
 </resources>

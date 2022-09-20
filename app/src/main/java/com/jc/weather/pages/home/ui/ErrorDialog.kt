@@ -30,31 +30,40 @@ fun ErrorDialog(message: String) {
                 isDialogOpened.value = false
             },
             title = {
-                Text(
-                    modifier = Modifier.fillMaxSize(),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    text = stringResource(id = R.string.dialog_title_error_occurred),
-                    textAlign = TextAlign.Center,
-                )
+                Title()
             },
             text = {
-                Text(fontSize = 14.sp, text = message)
+                Description(message)
             },
             confirmButton = {
-                TextButton(
-                    border = BorderStroke(0.5.dp, colorResource(R.color.black)),
-                    modifier = Modifier.padding(8.dp),
-                    onClick = { isDialogOpened.value = false }
-                ) {
-                    Text(
-                        color = colorResource(R.color.black),
-                        text = stringResource(id = R.string.dialog_ok)
-                    )
-                }
+                OkButton { isDialogOpened.value = false }
             }
         )
     }
+}
+
+@Composable
+private fun Title() = Text(
+    modifier = Modifier.fillMaxSize(),
+    fontSize = 16.sp,
+    fontWeight = FontWeight.Bold,
+    text = stringResource(id = R.string.dialog_title_error_occurred),
+    textAlign = TextAlign.Center,
+)
+
+@Composable
+private fun Description(message: String) = Text(fontSize = 14.sp, text = message)
+
+@Composable
+private fun OkButton(onClick: () -> Unit) = TextButton(
+    border = BorderStroke(0.5.dp, colorResource(R.color.black)),
+    modifier = Modifier.padding(8.dp),
+    onClick = onClick
+) {
+    Text(
+        color = colorResource(R.color.black),
+        text = stringResource(id = R.string.dialog_ok)
+    )
 }
 
 @Preview(name = "Error dialog preview", showBackground = true)

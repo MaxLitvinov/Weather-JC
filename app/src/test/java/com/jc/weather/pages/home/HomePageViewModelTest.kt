@@ -48,15 +48,15 @@ class HomePageViewModelTest {
                 DayForecast("20.09 Tuesday", 0.0, 14.94, 0.0, 11.3, 0.0, 0.0)
             )
         )
-        coEvery { interactor.fetchWeather() } returns HomePageViewModel.WeatherUiState.Success(weatherModel)
+        coEvery { interactor.fetchWeather() } returns HomePageViewModel.UiState.Success(weatherModel)
 
-        Assert.assertEquals(HomePageViewModel.WeatherUiState.Loading, viewModel.uiState.value)
+        Assert.assertEquals(HomePageViewModel.UiState.Loading, viewModel.uiState.value)
 
         viewModel.fetchWeather()
 
         coVerify { interactor.fetchWeather() }
 
-        val expectedWeatherModel = HomePageViewModel.WeatherUiState.Success(weatherModel)
+        val expectedWeatherModel = HomePageViewModel.UiState.Success(weatherModel)
 
         Assert.assertEquals(expectedWeatherModel, viewModel.uiState.value)
     }
@@ -64,15 +64,15 @@ class HomePageViewModelTest {
     @Test
     fun `Failure fetch request`() = runBlocking {
         val errorMessage = "Some error"
-        coEvery { interactor.fetchWeather() } returns HomePageViewModel.WeatherUiState.Failure(errorMessage)
+        coEvery { interactor.fetchWeather() } returns HomePageViewModel.UiState.Failure(errorMessage)
 
-        Assert.assertEquals(HomePageViewModel.WeatherUiState.Loading, viewModel.uiState.value)
+        Assert.assertEquals(HomePageViewModel.UiState.Loading, viewModel.uiState.value)
 
         viewModel.fetchWeather()
 
         coVerify { interactor.fetchWeather() }
 
-        val expectedWeatherModel = HomePageViewModel.WeatherUiState.Failure(errorMessage)
+        val expectedWeatherModel = HomePageViewModel.UiState.Failure(errorMessage)
 
         Assert.assertEquals(expectedWeatherModel, viewModel.uiState.value)
     }
