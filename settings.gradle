@@ -14,3 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Weather-JC"
 include ':app'
+include ':library:locale'
+include ':library:time'
+include ':service:api_client'
+include ':service:ip_api'
+include ':service:open_weather_map'

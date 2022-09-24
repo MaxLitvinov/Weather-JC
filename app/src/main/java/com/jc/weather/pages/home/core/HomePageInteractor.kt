@@ -2,11 +2,13 @@ package com.jc.weather.pages.home.core
 
 import android.content.Context
 import com.jc.weather.R
-import com.jc.weather.di.TimestampProvider
-import com.jc.weather.domain.ip_api.model.IpDomainModel
+import com.jc.weather.ip_api.domain.model.IpDomainModel
+import com.jc.weather.ip_api.domain.repository.IpRepository
+import com.jc.weather.open_weather_map.domain.repository.WeatherRepository
 import com.jc.weather.pages.home.HomePageViewModel
 import com.jc.weather.pages.home.mapper.WeatherDomainModelMapper
 import com.jc.weather.pages.home.model.DayForecast
+import com.jc.weather.time.TimestampProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

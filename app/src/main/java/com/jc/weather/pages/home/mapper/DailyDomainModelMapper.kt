@@ -1,8 +1,8 @@
 package com.jc.weather.pages.home.mapper
 
-import com.jc.weather.di.TimestampProvider
-import com.jc.weather.domain.open_weather_map.model.DailyDomainModel
+import com.jc.weather.open_weather_map.domain.model.DailyDomainModel
 import com.jc.weather.pages.home.model.DayForecast
+import com.jc.weather.time.TimestampProvider
 import javax.inject.Inject
 
 class DailyDomainModelMapper @Inject constructor(

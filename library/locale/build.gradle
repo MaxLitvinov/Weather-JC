@@ -1,0 +1,48 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+apply from: '../../dependencies.gradle'
+
+android {
+    namespace 'com.jc.weather.locale'
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility env.java_version
+        targetCompatibility env.java_version
+    }
+    kotlinOptions {
+        jvmTarget = env.java_version
+    }
+}
+
+dependencies {
+
+    implementation deps.app.androidx.core_ktx
+    implementation deps.app.androidx.material
+
+    implementation deps.app.google.hilt_android
+    kapt deps.app.google.hilt_compiler
+
+    androidTestImplementation deps.test.espresso_core
+    androidTestImplementation deps.test.junit_ext
+    testImplementation deps.test.junit
+}

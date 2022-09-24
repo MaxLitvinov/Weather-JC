@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+apply from: '../../dependencies.gradle'
+
+android {
+    namespace 'com.jc.api_client'
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility env.java_version
+        targetCompatibility env.java_version
+    }
+    kotlinOptions {
+        jvmTarget = env.java_version
+    }
+}
+
+dependencies {
+
+    implementation deps.app.google.gson
+    implementation deps.app.google.hilt_android
+    kapt deps.app.google.hilt_compiler
+
+    implementation deps.app.squareup.converter_gson
+    implementation deps.app.squareup.logging_interceptor
+    implementation deps.app.squareup.retrofit
+
+    androidTestImplementation deps.test.espresso_core
+    androidTestImplementation deps.test.junit_ext
+    testImplementation deps.test.junit
+}

@@ -1,0 +1,62 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+apply from: '../../dependencies.gradle'
+
+android {
+    namespace 'com.jc.weather.ip_api'
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
+        }
+        release {
+            buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
+
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility env.java_version
+        targetCompatibility env.java_version
+    }
+    kotlinOptions {
+        jvmTarget = env.java_version
+    }
+}
+
+dependencies {
+
+    implementation project(':service:api_client')
+
+    implementation deps.app.androidx.material
+
+    implementation deps.app.google.hilt_android
+    kapt deps.app.google.hilt_compiler
+
+    implementation deps.app.squareup.converter_gson
+    implementation deps.app.squareup.retrofit
+
+    implementation deps.test.core_testing
+    implementation deps.test.mockk
+    implementation deps.test.mockk_android
+
+    androidTestImplementation deps.test.espresso_core
+    androidTestImplementation deps.test.junit_ext
+    testImplementation deps.test.junit
+}
