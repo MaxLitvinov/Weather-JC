@@ -17,8 +17,16 @@ class TimestampProvider @Inject constructor(
 
         private const val DAY_MONTH_FORMAT = "dd.MM"
         private const val DAY_MONTH_DAY_NAME_FORMAT = "dd.MM EEEE"
+        private const val HOUR_MIN_FORMAT = "HH:mm"
         private const val TIME_ZONE_UTC = "UTC"
     }
+
+    /**
+     * Get date formatted as [HOUR_MIN_FORMAT].
+     *
+     * Example: "12:15".
+     */
+    fun toTime(dateInSeconds: Long): String = mapTo(dateInSeconds, HOUR_MIN_FORMAT)
 
     /**
      * Get date formatted as [DAY_MONTH_FORMAT].

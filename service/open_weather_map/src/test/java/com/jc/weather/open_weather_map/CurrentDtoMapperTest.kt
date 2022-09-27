@@ -29,19 +29,19 @@ class CurrentDtoMapperTest {
         val currentTime: Long = 1663109294
         val sunriseTime: Long = 1663126067
         val sunsetTime: Long = 1663172008
-        val temperature = 9.69
-        val feelsLike = 8.63
+        val temperature = 9.69F
+        val feelsLike = 8.63F
         val pressure = 1006
         val humidity = 94
-        val dewPoint = 8.77
-        val uvIndex = 0.0
+        val dewPoint = 8.77F
+        val uvIndex = 0.0F
         val clouds = 100
         val visibility = 10000
-        val windSpeed = 2.26
+        val windSpeed = 2.26F
         val windDeg = 317
-        val windGust = 5.95
-        val rainLastHourVolume = 0.12
-        val snowLastHourVolume: Double? = null
+        val windGust = 5.95F
+        val rainLastHourVolume = 0.12F
+        val snowLastHourVolume: Float? = null
 
         val weatherDetailId = 500
         val weatherDetailMainDescription = "Rain"

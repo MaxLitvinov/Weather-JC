@@ -1,7 +1,7 @@
 package com.jc.weather.pages.details.model
 
 data class CollapsedModel(
-    val id: Int,
+    val id: Long,
     var isExpanded: Boolean,
     val time: String,
     val iconUrl: String,

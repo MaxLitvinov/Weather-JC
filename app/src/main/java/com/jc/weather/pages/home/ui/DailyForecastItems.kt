@@ -41,7 +41,7 @@ private fun getDayNightTemperatureMaxLengths(dailyForecasts: List<DayForecast>):
 }
 
 @Composable
-private fun getDayTemperature(temperature: Double, maxStringLength: Int): String {
+private fun getDayTemperature(temperature: Float, maxStringLength: Int): String {
     val currentDayTempLength = temperature.toString().length
     var dayValue: String = stringResource(R.string.home_page_temperature_value, temperature)
     if (currentDayTempLength < maxStringLength) {
@@ -54,7 +54,7 @@ private fun getDayTemperature(temperature: Double, maxStringLength: Int): String
 }
 
 @Composable
-private fun getNightTemperature(temperature: Double, maxStringLength: Int): String {
+private fun getNightTemperature(temperature: Float, maxStringLength: Int): String {
     val currentNightTempLength = temperature.toString().length
     var nightValue: String =
         stringResource(R.string.home_page_temperature_value, temperature)

@@ -133,14 +133,14 @@ private fun WeatherScreenPreview() {
         temperature = "20.07",
         weatherDescription = "Rainy",
         dailyForecasts = listOf(
-            DayForecast("Today", 0.0, 15.83, 0.0, 10.67, 0.0, 0.0),
-            DayForecast("Tomorrow", 0.0, 7.61, 0.0, 9.52, 0.0, 0.0),
-            DayForecast("24.09 Saturday", 0.0, 9.14, 0.0, 10.8, 0.0, 0.0),
-            DayForecast("25.09 Sunday", 0.0, 14.91, 0.0, 13.3, 0.0, 0.0),
-            DayForecast("26.09 Monday", 0.0, 11.5, 0.0, 9.53, 0.0, 0.0),
-            DayForecast("27.09 Tuesday", 0.0, 10.99, 0.0, 10.41, 0.0, 0.0),
-            DayForecast("28.09 Wednesday", 0.0, 19.24, 0.0, 12.59, 0.0, 0.0),
-            DayForecast("29.09 Thursday", 0.0, 14.89, 0.0, 14.28, 0.0, 0.0)
+            DayForecast("Today", 0.0F, 15.83F, 0.0F, 10.67F, 0.0F, 0.0F),
+            DayForecast("Tomorrow", 0.0F, 7.61F, 0.0F, 9.52F, 0.0F, 0.0F),
+            DayForecast("24.09 Saturday", 0.0F, 9.14F, 0.0F, 10.8F, 0.0F, 0.0F),
+            DayForecast("25.09 Sunday", 0.0F, 14.91F, 0.0F, 13.3F, 0.0F, 0.0F),
+            DayForecast("26.09 Monday", 0.0F, 11.5F, 0.0F, 9.53F, 0.0F, 0.0F),
+            DayForecast("27.09 Tuesday", 0.0F, 10.99F, 0.0F, 10.41F, 0.0F, 0.0F),
+            DayForecast("28.09 Wednesday", 0.0F, 19.24F, 0.0F, 12.59F, 0.0F, 0.0F),
+            DayForecast("29.09 Thursday", 0.0F, 14.89F, 0.0F, 14.28F, 0.0F, 0.0F)
         )
     )
     WeatherJCTheme {

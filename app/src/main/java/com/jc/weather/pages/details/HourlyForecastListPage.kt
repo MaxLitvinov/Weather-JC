@@ -25,7 +25,7 @@ import com.jc.weather.ui.theme.WeatherJCTheme
 
 @Composable
 fun WeatherDetailsPage(
-    viewModel: WeatherDetailsPageViewModel,
+    viewModel: HourlyForecastListPageViewModel,
 ) = Column(
     modifier = Modifier
         .fillMaxSize()
@@ -42,8 +42,8 @@ fun WeatherDetailsPage(
 ) {
     viewModel.fetchDetails()
     when (val uiState = viewModel.uiState.collectAsState().value) {
-        is WeatherDetailsPageViewModel.UiState.Loading -> ProgressDialog()
-        is WeatherDetailsPageViewModel.UiState.Loaded -> {
+        is HourlyForecastListPageViewModel.UiState.Loading -> ProgressDialog()
+        is HourlyForecastListPageViewModel.UiState.Loaded -> {
             val list = uiState.list
             val expandedItemIdList = viewModel.expandedItemIdList.collectAsState()
             ExpandableDetailList(
@@ -63,8 +63,8 @@ private fun getDisplayHeight(): Float = with(LocalDensity.current) {
 @Composable
 private fun ExpandableDetailList(
     list: List<CollapsedModel>,
-    onExpandableItemClick: (Int) -> Unit,
-    isExpanded: (Int) -> Boolean
+    onExpandableItemClick: (Long) -> Unit,
+    isExpanded: (Long) -> Boolean
 ) = LazyColumn(
     state = rememberLazyListState(),
     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -83,7 +83,7 @@ private fun ExpandableDetailList(
 @Composable
 private fun WeatherDetailsPagePreview() {
     WeatherJCTheme {
-        val viewModel = WeatherDetailsPageViewModel()
-        WeatherDetailsPage(viewModel = viewModel)
+        // TODO: Figure out how to set ViewModel without any injections needed
+        // WeatherDetailsPage(viewModel = Any)
     }
 }

@@ -4,7 +4,8 @@ import android.content.Context
 import com.jc.weather.R
 import com.jc.weather.ip_api.domain.model.IpDomainModel
 import com.jc.weather.ip_api.domain.repository.IpRepository
-import com.jc.weather.open_weather_map.domain.repository.WeatherRepository
+import com.jc.weather.open_weather_map.data.data_store.WeatherDataStoreRepository
+import com.jc.weather.open_weather_map.domain.repository.WeatherForecastRepository
 import com.jc.weather.pages.home.HomePageViewModel
 import com.jc.weather.pages.home.mapper.WeatherDomainModelMapper
 import com.jc.weather.pages.home.model.DayForecast
@@ -15,8 +16,9 @@ import javax.inject.Inject
 class HomePageInteractor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val timestampProvider: TimestampProvider,
-    private val weatherRepository: WeatherRepository,
+    private val weatherForecastRepository: WeatherForecastRepository,
     private val ipRepository: IpRepository,
+    private val weatherDataStoreRepository: WeatherDataStoreRepository,
     private val mapper: WeatherDomainModelMapper
 ) {
 
@@ -28,7 +30,11 @@ class HomePageInteractor @Inject constructor(
     suspend fun fetchWeather(): HomePageViewModel.UiState =
         try {
             val locationModel = fetchLocation()
-            val weatherDomainModel = weatherRepository.fetchWeather("${locationModel.lat}", "${locationModel.lon}")
+            val weatherDomainModel = weatherForecastRepository.fetchWeather("${locationModel.lat}", "${locationModel.lon}")
+
+            // TODO: Save forecast to DataStore
+            weatherDataStoreRepository.saveData(weatherDomainModel)
+
             val weatherUiModel = mapper.mapToUiModel(weatherDomainModel).apply {
                 city = locationModel.city
 

@@ -5,8 +5,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.jc.weather.pages.details.HourlyForecastListPageViewModel
 import com.jc.weather.pages.details.WeatherDetailsPage
-import com.jc.weather.pages.details.WeatherDetailsPageViewModel
 import com.jc.weather.pages.home.HomePage
 import com.jc.weather.pages.home.HomePageViewModel
 
@@ -19,14 +19,14 @@ fun WeatherNavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(WeatherAppNavigation.HOME_ROUTE) { backStackEntry ->
+        composable(WeatherAppNavigation.HOME_ROUTE) {
             val viewModel = hiltViewModel<HomePageViewModel>()
             HomePage(viewModel = viewModel) {
                 navController.navigate(WeatherAppNavigation.WEATHER_DETAILS_ROUTE)
             }
         }
-        composable(WeatherAppNavigation.WEATHER_DETAILS_ROUTE) { backStackEntry ->
-            val viewModel = hiltViewModel<WeatherDetailsPageViewModel>()
+        composable(WeatherAppNavigation.WEATHER_DETAILS_ROUTE) {
+            val viewModel = hiltViewModel<HourlyForecastListPageViewModel>()
             WeatherDetailsPage(viewModel = viewModel)
         }
     }

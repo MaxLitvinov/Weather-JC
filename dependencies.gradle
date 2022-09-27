@@ -24,6 +24,7 @@ ext {
                             compose_ui                 : "androidx.compose.ui:ui:${versions.compose}",
                             constraintlayout_compose   : "androidx.constraintlayout:constraintlayout-compose:1.0.1",
                             core_ktx                   : "androidx.core:core-ktx:1.9.0",
+                            datastore                  : "androidx.datastore:datastore-preferences:1.0.0",
                             hilt_navigation_compose    : "androidx.hilt:hilt-navigation-compose:${versions.hilt_navigation}",
                             hilt_navigation_fragment   : "androidx.hilt:hilt-navigation-fragment:${versions.hilt_navigation}",
                             lifecycle_runtime_ktx      : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}",

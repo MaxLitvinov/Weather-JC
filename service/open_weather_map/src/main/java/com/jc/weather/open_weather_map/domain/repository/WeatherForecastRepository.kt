@@ -5,7 +5,7 @@ import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
 import com.jc.weather.open_weather_map.data.api.OpenWeatherMapApi
 import javax.inject.Inject
 
-class WeatherRepository @Inject constructor(
+class WeatherForecastRepository @Inject constructor(
     private val api: OpenWeatherMapApi,
     private val mapper: WeatherDtoMapper
 ) {

@@ -18,12 +18,12 @@ class TemperatureDtoMapperTest {
 
     @Test
     fun `Check TemperatureDto mapping`() {
-        val morning = 11.64
-        val day = 18.2
-        val evening = 17.43
-        val night = 14.32
-        val min = 11.13
-        val max = 20.8
+        val morning = 11.64F
+        val day = 18.2F
+        val evening = 17.43F
+        val night = 14.32F
+        val min = 11.13F
+        val max = 20.8F
 
         val dto = TemperatureDto(morning = morning, day = day, evening = evening, night = night, min = min, max = max)
 

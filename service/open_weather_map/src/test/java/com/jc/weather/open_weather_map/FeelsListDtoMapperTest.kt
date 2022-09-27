@@ -18,10 +18,10 @@ class FeelsListDtoMapperTest {
 
     @Test
     fun `Check FeelsLikeDto mapping`() {
-        val day = 14.43
-        val night = 10.9
-        val evening = 11.97
-        val morning = 8.52
+        val day = 14.43F
+        val night = 10.9F
+        val evening = 11.97F
+        val morning = 8.52F
 
         val dto = FeelsLikeDto(day = day, night = night, evening = evening, morning = morning)
 

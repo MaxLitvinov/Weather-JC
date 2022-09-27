@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 class WeatherDtoMapper @Inject constructor(
     private val currentDtoMapper: CurrentDtoMapper,
+    private val hourlyDtoMapper: HourlyDtoMapper,
     private val dailyDtoMapper: DailyDtoMapper
 ) {
 
@@ -16,7 +17,8 @@ class WeatherDtoMapper @Inject constructor(
             timezone = timezone,
             timezoneOffset = timezoneOffset,
             currentWeather = currentDtoMapper.mapToDomainModel(current),
-            dailyForecasts = dailyForecasts.map(dailyDtoMapper::mapToDomainModel),
+            hourlyForecasts = hourlyForecasts?.map(hourlyDtoMapper::mapToDomainModel),
+            dailyForecasts = dailyForecasts.map(dailyDtoMapper::mapToDomainModel)
         )
     }
 }

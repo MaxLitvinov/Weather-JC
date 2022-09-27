@@ -31,31 +31,31 @@ class DailyDomainModelMapperTest {
             sunsetTime = 1663172008,
             moonriseTime = 1663177560,
             moonsetTime = 1663143240,
-            moonPhase = 0.64,
+            moonPhase = 0.64F,
             temperature = TemperatureDomainModel(
-                day = 15.07,
-                min = 9.34,
-                max = 17.26,
-                night = 11.26,
-                evening = 12.31,
-                morning = 9.34
+                day = 15.07F,
+                min = 9.34F,
+                max = 17.26F,
+                night = 11.26F,
+                evening = 12.31F,
+                morning = 9.34F
             ),
             feelsLike = FeelsLikeDomainModel(
-                day = 14.43,
-                night = 10.9,
-                evening = 11.97,
-                morning = 8.52
+                day = 14.43F,
+                night = 10.9F,
+                evening = 11.97F,
+                morning = 8.52F
             ),
             pressure = 1005,
             humidity = 69,
-            dewPoint = 9.46,
-            windSpeed = 6.0,
+            dewPoint = 9.46F,
+            windSpeed = 6.0F,
             windDeg = 254,
-            windGust = 8.66,
+            windGust = 8.66F,
             clouds = 93,
-            pop = 0.57,
-            rain = 2.39,
-            uvIndex = 2.34,
+            pop = 0.57F,
+            rain = 2.39F,
+            uvIndex = 2.34F,
             snow = null
         )
 
@@ -66,12 +66,12 @@ class DailyDomainModelMapperTest {
 
         val expectedUiModel = DayForecast(
             dayName = dayName,
-            morning = 9.34,
-            day = 15.07,
-            evening = 12.31,
-            night = 11.26,
-            min = 9.34,
-            max = 17.26
+            morning = 9.34F,
+            day = 15.07F,
+            evening = 12.31F,
+            night = 11.26F,
+            min = 9.34F,
+            max = 17.26F
         )
 
         assertEquals(expectedUiModel, actualUiModel)

@@ -8,21 +8,24 @@ import com.google.gson.annotations.SerializedName
  * @param timezone Timezone name for the requested location
  * @param timezoneOffset Shift in seconds from UTC
  * @param current Current weather data API response
+ * @param hourlyForecasts Hourly forecast weather data API response
  * @param dailyForecasts Daily forecasts weather data API response
  *
  * @see <a href="https://openweathermap.org/api/one-call-3">OpenWeather One Call API 3.0.</a>
  */
 data class WeatherDto(
     @SerializedName("lat")
-    val latitude: Double,
+    val latitude: Float,
     @SerializedName("lon")
-    val longitude: Double,
+    val longitude: Float,
     @SerializedName("timezone")
     val timezone: String,
     @SerializedName("timezone_offset")
     val timezoneOffset: Int,
     @SerializedName("current")
     val current: CurrentDto,
+    @SerializedName("hourly")
+    val hourlyForecasts: List<HourlyDto>? = null,
     @SerializedName("daily")
     val dailyForecasts: List<DailyDto>
 )
@@ -56,27 +59,27 @@ data class CurrentDto(
     @SerializedName("sunset")
     val sunsetTime: Long,
     @SerializedName("temp")
-    val temperature: Double,
+    val temperature: Float,
     @SerializedName("feels_like")
-    val feelsLike: Double,
+    val feelsLike: Float,
     @SerializedName("pressure")
     val pressure: Int,
     @SerializedName("humidity")
     val humidity: Int,
     @SerializedName("dew_point")
-    val dewPoint: Double,
+    val dewPoint: Float,
     @SerializedName("clouds")
     val clouds: Int,
     @SerializedName("uvi")
-    val uvIndex: Double,
+    val uvIndex: Float,
     @SerializedName("visibility")
     val visibility: Int,
     @SerializedName("wind_deg")
     val windDeg: Int,
     @SerializedName("wind_gust")
-    val windGust: Double,
+    val windGust: Float,
     @SerializedName("wind_speed")
-    val windSpeed: Double,
+    val windSpeed: Float,
     @SerializedName("rain")
     val rain: RainDto?,
     @SerializedName("snow")
@@ -100,6 +103,53 @@ data class WeatherDetailsDto(
     val description: String,
     @SerializedName("icon")
     val icon: String
+)
+
+/**
+ * @param time Time of the forecasted data, Unix, UTC
+ * @param temperature Temperature. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
+ * @param feelsLike Temperature. This accounts for the human perception of weather. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
+ * @param pressure Atmospheric pressure on the sea level, hPa
+ * @param humidity Humidity, %
+ * @param dewPoint Atmospheric temperature (varying according to pressure and humidity) below which water droplets begin to condense and dew can form. Units – default: kelvin, metric: Celsius, imperial: Fahrenheit.
+ * @param uvIndex UV index
+ * @param clouds Cloudiness, %
+ * @param visibility Average visibility, metres. The maximum value of the visibility is 10km
+ * @param windSpeed Wind speed. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour.How to change units used
+ * @param windDeg Wind direction, degrees (meteorological)
+ * @param windGust (where available) Wind gust. Units – default: metre/sec, metric: metre/sec, imperial: miles/hour.
+ * @param weather Weather details
+ * @param pop Probability of precipitation. The values of the parameter vary between 0 and 1, where 0 is equal to 0%, 1 is equal to 100%
+ */
+data class HourlyDto(
+    @SerializedName("dt")
+    val time: Long,
+    @SerializedName("temp")
+    val temperature: Float,
+    @SerializedName("feels_like")
+    val feelsLike: Float,
+    @SerializedName("pressure")
+    val pressure: Int,
+    @SerializedName("humidity")
+    val humidity: Int,
+    @SerializedName("dew_point")
+    val dewPoint: Float,
+    @SerializedName("uvi")
+    val uvIndex: Float,
+    @SerializedName("clouds")
+    val clouds: Int,
+    @SerializedName("visibility")
+    val visibility: Int,
+    @SerializedName("wind_speed")
+    val windSpeed: Float,
+    @SerializedName("wind_deg")
+    val windDeg: Int,
+    @SerializedName("wind_gust")
+    val windGust: Float,
+    @SerializedName("weather")
+    val weather: List<WeatherDetailsDto>,
+    @SerializedName("pop")
+    val pop: Float
 )
 
 /**
@@ -138,7 +188,7 @@ data class DailyDto(
     @SerializedName("moonset")
     val moonsetTime: Long,
     @SerializedName("moon_phase")
-    val moonPhase: Double,
+    val moonPhase: Float,
     @SerializedName("temp")
     val temperature: TemperatureDto,
     @SerializedName("feels_like")
@@ -148,23 +198,23 @@ data class DailyDto(
     @SerializedName("humidity")
     val humidity: Int,
     @SerializedName("dew_point")
-    val dewPoint: Double,
+    val dewPoint: Float,
     @SerializedName("wind_speed")
-    val windSpeed: Double,
+    val windSpeed: Float,
     @SerializedName("wind_deg")
     val windDeg: Int,
     @SerializedName("wind_gust")
-    val windGust: Double,
+    val windGust: Float,
     @SerializedName("clouds")
     val clouds: Int,
     @SerializedName("uvi")
-    val uvIndex: Double,
+    val uvIndex: Float,
     @SerializedName("pop")
-    val pop: Double,
+    val pop: Float,
     @SerializedName("rain")
-    val rain: Double?,
+    val rain: Float?,
     @SerializedName("snow")
-    val snow: Double?,
+    val snow: Float?,
     @SerializedName("weather")
     val weather: List<WeatherDetailsDto>
 )
@@ -183,17 +233,17 @@ data class DailyDto(
  */
 data class TemperatureDto(
     @SerializedName("morn")
-    val morning: Double,
+    val morning: Float,
     @SerializedName("day")
-    val day: Double,
+    val day: Float,
     @SerializedName("eve")
-    val evening: Double,
+    val evening: Float,
     @SerializedName("night")
-    val night: Double,
+    val night: Float,
     @SerializedName("min")
-    val min: Double,
+    val min: Float,
     @SerializedName("max")
-    val max: Double
+    val max: Float
 )
 
 /**
@@ -210,13 +260,13 @@ data class TemperatureDto(
  */
 data class FeelsLikeDto(
     @SerializedName("day")
-    val day: Double,
+    val day: Float,
     @SerializedName("night")
-    val night: Double,
+    val night: Float,
     @SerializedName("eve")
-    val evening: Double,
+    val evening: Float,
     @SerializedName("morn")
-    val morning: Double
+    val morning: Float
 )
 
 /**
@@ -226,7 +276,7 @@ data class FeelsLikeDto(
  */
 data class RainDto(
     @SerializedName("1h")
-    val lastHourVolume: Double
+    val lastHourVolume: Float
 )
 
 /**
@@ -236,5 +286,5 @@ data class RainDto(
  */
 data class SnowDto(
     @SerializedName("1h")
-    val lastHourVolume: Double
+    val lastHourVolume: Float
 )

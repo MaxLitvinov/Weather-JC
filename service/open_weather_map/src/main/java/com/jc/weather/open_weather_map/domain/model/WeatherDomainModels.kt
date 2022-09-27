@@ -1,11 +1,12 @@
 package com.jc.weather.open_weather_map.domain.model
 
 data class WeatherDomainModel(
-    val latitude: Double,
-    val longitude: Double,
+    val latitude: Float,
+    val longitude: Float,
     val timezone: String,
     val timezoneOffset: Int,
     val currentWeather: CurrentWeatherDomainModel,
+    val hourlyForecasts: List<HourlyDomainModel>? = null,
     val dailyForecasts: List<DailyDomainModel>
 )
 
@@ -13,19 +14,19 @@ data class CurrentWeatherDomainModel(
     val currentTime: Long,
     val sunriseTime: Long,
     val sunsetTime: Long,
-    val temperature: Double,
-    val feelsLike: Double,
+    val temperature: Float,
+    val feelsLike: Float,
     val pressure: Int,
     val humidity: Int,
-    val dewPoint: Double,
+    val dewPoint: Float,
     val clouds: Int,
-    val uvIndex: Double,
+    val uvIndex: Float,
     val visibility: Int,
     val windDeg: Int,
-    val windGust: Double,
-    val windSpeed: Double,
-    val lastHourRainVolume: Double?,
-    val lastHourSnowVolume: Double?,
+    val windGust: Float,
+    val windSpeed: Float,
+    val lastHourRainVolume: Float?,
+    val lastHourSnowVolume: Float?,
     val weatherDetails: WeatherDetailsDomainModel
 )
 
@@ -36,40 +37,57 @@ data class WeatherDetailsDomainModel(
     val iconUrl: String
 )
 
+data class HourlyDomainModel(
+    val time: Long,
+    val temperature: Float,
+    val feelsLike: Float,
+    val pressure: Int,
+    val humidity: Int,
+    val dewPoint: Float,
+    val uvIndex: Float,
+    val clouds: Int,
+    val visibility: Int,
+    val windSpeed: Float,
+    val windDeg: Int,
+    val windGust: Float,
+    val weather: WeatherDetailsDomainModel,
+    val pop: Float
+)
+
 data class DailyDomainModel(
     val time: Long,
     val sunriseTime: Long,
     val sunsetTime: Long,
     val moonriseTime: Long,
     val moonsetTime: Long,
-    val moonPhase: Double,
+    val moonPhase: Float,
     val temperature: TemperatureDomainModel,
     val feelsLike: FeelsLikeDomainModel,
     val pressure: Int,
     val humidity: Int,
-    val dewPoint: Double,
-    val windSpeed: Double,
+    val dewPoint: Float,
+    val windSpeed: Float,
     val windDeg: Int,
-    val windGust: Double,
+    val windGust: Float,
     val clouds: Int,
-    val uvIndex: Double,
-    val pop: Double,
-    val rain: Any?,
-    val snow: Any?
+    val uvIndex: Float,
+    val pop: Float,
+    val rain: Float?,
+    val snow: Float?
 )
 
 data class TemperatureDomainModel(
-    val morning: Double,
-    val day: Double,
-    val evening: Double,
-    val night: Double,
-    val min: Double,
-    val max: Double
+    val morning: Float,
+    val day: Float,
+    val evening: Float,
+    val night: Float,
+    val min: Float,
+    val max: Float
 )
 
 data class FeelsLikeDomainModel(
-    val day: Double,
-    val night: Double,
-    val evening: Double,
-    val morning: Double
+    val day: Float,
+    val night: Float,
+    val evening: Float,
+    val morning: Float
 )

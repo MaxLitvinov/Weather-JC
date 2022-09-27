@@ -113,7 +113,7 @@ private fun Description(description: String, rain: Float?) {
             ),
         contentAlignment = Alignment.Center
     ) {
-        val text = when (rain != null) {
+        val text = when (rain != null && rain != 0.0F) {
             true -> stringResource(R.string.weather_details_page_description_with_rain, description, rain)
             false -> description
         }

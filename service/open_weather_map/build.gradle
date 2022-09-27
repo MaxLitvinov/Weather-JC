@@ -46,6 +46,8 @@ dependencies {
 
     implementation project(':service:api_client')
 
+    implementation deps.app.androidx.datastore
+
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler
 

@@ -10,10 +10,10 @@ data class WeatherModel(
 
 data class DayForecast(
     var dayName: String,
-    val morning: Double,
-    val day: Double,
-    val evening: Double,
-    val night: Double,
-    val min: Double,
-    val max: Double
+    val morning: Float,
+    val day: Float,
+    val evening: Float,
+    val night: Float,
+    val min: Float,
+    val max: Float
 )
