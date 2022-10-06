@@ -94,6 +94,9 @@ def renameApk(variant) {
 
 dependencies {
 
+    implementation project(':feature:hourly_forecast')
+    implementation project(':foundation:dialog')
+    implementation project(':foundation:resources')
     implementation project(':library:time')
     implementation project(':service:ip_api')
     implementation project(':service:open_weather_map')

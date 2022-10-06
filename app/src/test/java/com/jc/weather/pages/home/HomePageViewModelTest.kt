@@ -1,9 +1,10 @@
 package com.jc.weather.pages.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.jc.weather.pages.home.core.HomePageInteractor
-import com.jc.weather.pages.home.model.DayForecast
-import com.jc.weather.pages.home.model.WeatherModel
+import com.jc.weather.home_page.HomePageViewModel
+import com.jc.weather.home_page.core.HomePageInteractor
+import com.jc.weather.home_page.model.DayForecast
+import com.jc.weather.home_page.model.WeatherModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

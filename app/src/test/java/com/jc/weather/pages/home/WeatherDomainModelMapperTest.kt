@@ -1,15 +1,15 @@
 package com.jc.weather.pages.home
 
+import com.jc.weather.home_page.mapper.DailyDomainModelMapper
+import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
+import com.jc.weather.home_page.model.DayForecast
+import com.jc.weather.home_page.model.WeatherModel
 import com.jc.weather.open_weather_map.domain.model.CurrentWeatherDomainModel
 import com.jc.weather.open_weather_map.domain.model.DailyDomainModel
 import com.jc.weather.open_weather_map.domain.model.FeelsLikeDomainModel
 import com.jc.weather.open_weather_map.domain.model.TemperatureDomainModel
 import com.jc.weather.open_weather_map.domain.model.WeatherDetailsDomainModel
 import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
-import com.jc.weather.pages.home.mapper.DailyDomainModelMapper
-import com.jc.weather.pages.home.mapper.WeatherDomainModelMapper
-import com.jc.weather.pages.home.model.DayForecast
-import com.jc.weather.pages.home.model.WeatherModel
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals

@@ -1,14 +1,14 @@
 package com.jc.weather.pages.home
 
 import android.content.Context
+import com.jc.weather.home_page.core.HomePageInteractor
+import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
+import com.jc.weather.home_page.model.WeatherModel
 import com.jc.weather.ip_api.domain.model.IpDomainModel
 import com.jc.weather.ip_api.domain.repository.IpRepository
 import com.jc.weather.open_weather_map.data.data_store.WeatherDataStoreRepository
 import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
 import com.jc.weather.open_weather_map.domain.repository.WeatherForecastRepository
-import com.jc.weather.pages.home.core.HomePageInteractor
-import com.jc.weather.pages.home.mapper.WeatherDomainModelMapper
-import com.jc.weather.pages.home.model.WeatherModel
 import com.jc.weather.time.TimestampProvider
 import io.mockk.coEvery
 import io.mockk.coVerify

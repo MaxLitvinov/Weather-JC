@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+apply from: '../../dependencies.gradle'
+
+android {
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility env.java_version
+        targetCompatibility env.java_version
+    }
+    kotlinOptions {
+        jvmTarget = env.java_version
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+}
+
+dependencies {
+
+    implementation project(':foundation:resources')
+
+    implementation deps.app.androidx.core_ktx
+    implementation deps.app.androidx.compose_tooling
+    implementation deps.app.androidx.compose_ui
+    implementation deps.app.androidx.material
+}
