@@ -13,10 +13,6 @@ android {
     defaultConfig {
         minSdk rootProject.minSdkVersion
         targetSdk rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -41,8 +37,4 @@ dependencies {
 
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler
-
-    androidTestImplementation deps.test.espresso_core
-    androidTestImplementation deps.test.junit_ext
-    testImplementation deps.test.junit
 }

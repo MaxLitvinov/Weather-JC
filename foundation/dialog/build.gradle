@@ -5,6 +5,7 @@ plugins {
 apply from: '../../dependencies.gradle'
 
 android {
+    namespace 'com.jc.weather.foundation.dialog'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {

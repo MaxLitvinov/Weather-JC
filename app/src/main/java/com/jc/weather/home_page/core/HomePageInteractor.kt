@@ -1,7 +1,7 @@
 package com.jc.weather.home_page.core
 
 import android.content.Context
-import com.jc.weather.foundation.resources.R
+import com.jc.weather.R
 import com.jc.weather.home_page.HomePageViewModel
 import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
 import com.jc.weather.home_page.model.DayForecast
@@ -32,7 +32,6 @@ class HomePageInteractor @Inject constructor(
             val locationModel = fetchLocation()
             val weatherDomainModel = weatherForecastRepository.fetchWeather("${locationModel.lat}", "${locationModel.lon}")
 
-            // TODO: Save forecast to DataStore
             weatherDataStoreRepository.saveData(weatherDomainModel)
 
             val weatherUiModel = mapper.mapToUiModel(weatherDomainModel).apply {

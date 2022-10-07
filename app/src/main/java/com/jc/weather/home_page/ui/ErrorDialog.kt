@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jc.weather.foundation.resources.R
+import com.jc.weather.R
 import com.jc.weather.foundation.resources.WeatherJCTheme
 
 @Composable

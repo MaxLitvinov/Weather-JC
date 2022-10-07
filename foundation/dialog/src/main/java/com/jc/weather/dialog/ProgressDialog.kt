@@ -11,7 +11,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.jc.weather.foundation.resources.WeatherJCTheme
 
-// TODO: Move to general place
 @Composable
 fun ProgressDialog() {
     Dialog(

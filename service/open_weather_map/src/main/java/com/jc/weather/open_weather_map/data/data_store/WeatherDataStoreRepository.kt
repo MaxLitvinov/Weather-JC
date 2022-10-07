@@ -26,7 +26,6 @@ class WeatherDataStoreRepository @Inject constructor(
         }
     }
 
-    // TODO: Create intermediate model instead of domain
     suspend fun saveData(model: WeatherDomainModel) {
         val json: String = mapToJson(model)
         dataStore.edit { settings ->

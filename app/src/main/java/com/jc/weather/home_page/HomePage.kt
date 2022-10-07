@@ -13,8 +13,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.jc.weather.R
 import com.jc.weather.dialog.ProgressDialog
-import com.jc.weather.foundation.resources.R
 import com.jc.weather.home_page.model.DayForecast
 import com.jc.weather.home_page.ui.ErrorDialog
 import com.jc.weather.home_page.ui.WeatherScreen

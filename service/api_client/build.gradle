@@ -7,16 +7,12 @@ plugins {
 apply from: '../../dependencies.gradle'
 
 android {
-    namespace 'com.jc.api_client'
+    namespace 'com.jc.weather.api_client'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
         minSdk rootProject.minSdkVersion
         targetSdk rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -43,8 +39,4 @@ dependencies {
     implementation deps.app.squareup.converter_gson
     implementation deps.app.squareup.logging_interceptor
     implementation deps.app.squareup.retrofit
-
-    androidTestImplementation deps.test.espresso_core
-    androidTestImplementation deps.test.junit_ext
-    testImplementation deps.test.junit
 }

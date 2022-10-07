@@ -106,7 +106,6 @@ dependencies {
     implementation deps.app.androidx.compose_ui
     implementation deps.app.androidx.constraintlayout_compose
     implementation deps.app.androidx.core_ktx
-    implementation deps.app.androidx.datastore // TODO: Remove after moving weather details page to appropriate module
     implementation deps.app.androidx.hilt_navigation_compose
     implementation deps.app.androidx.hilt_navigation_fragment
     implementation deps.app.androidx.lifecycle_runtime_ktx

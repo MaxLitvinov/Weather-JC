@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jc.weather.foundation.resources.R
+import com.jc.weather.R
 import com.jc.weather.foundation.resources.WeatherJCTheme
 import com.jc.weather.home_page.model.DayForecast
 import com.jc.weather.home_page.model.WeatherModel
@@ -90,7 +90,7 @@ private fun Image(model: WeatherModel) {
         imageModel = model.iconUrl,
         modifier = Modifier.height(200.dp),
         contentDescription = model.weatherDescription,
-        previewPlaceholder = com.jc.weather.R.drawable.ic_launcher_foreground,
+        previewPlaceholder = R.drawable.ic_launcher_foreground,
         loading = {
             Box(modifier = Modifier.matchParentSize()) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -98,7 +98,7 @@ private fun Image(model: WeatherModel) {
         },
         failure = {
             Image(
-                painter = painterResource(com.jc.weather.R.drawable.ic_launcher_foreground),
+                painter = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = model.weatherDescription,
                 modifier = Modifier.height(200.dp),
                 alignment = Alignment.Center,

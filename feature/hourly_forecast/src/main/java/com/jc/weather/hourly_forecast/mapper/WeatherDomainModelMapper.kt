@@ -27,7 +27,7 @@ class WeatherDomainModelMapper @Inject constructor(
                 uvIndex = uvIndex,
                 clouds = clouds,
                 visibility = visibility,
-                rain = 0.0F, // TODO: Get rain data from elsewhere or remove it
+                rain = 0.0F,
                 wind = WindModel(
                     speed = windSpeed,
                     deg = windDeg,

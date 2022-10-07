@@ -5,6 +5,7 @@ plugins {
 apply from: '../../dependencies.gradle'
 
 android {
+    namespace 'com.jc.weather'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {

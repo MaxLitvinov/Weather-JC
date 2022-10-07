@@ -1,6 +1,7 @@
 package com.jc.weather.pages.home
 
 import android.content.Context
+import com.jc.weather.home_page.HomePageViewModel
 import com.jc.weather.home_page.core.HomePageInteractor
 import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
 import com.jc.weather.home_page.model.WeatherModel
@@ -15,6 +16,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -34,6 +36,7 @@ class HomePageInteractorTest {
         timestampProvider = mockk()
         weatherForecastRepository = mockk()
         ipRepository = mockk()
+        weatherDataStoreRepository = mockk()
         weatherDomainModelMapper = mockk()
         interactor = HomePageInteractor(
             context,
@@ -45,7 +48,6 @@ class HomePageInteractorTest {
         )
     }
 
-    // TODO: Fix test
     @Test
     fun `When fetch weather returns success`() = runBlocking {
         val latitude = 33.8743
@@ -76,8 +78,12 @@ class HomePageInteractorTest {
         every { weatherDomainModel.timezoneOffset } returns -14400
         every { weatherDomainModelMapper.mapToUiModel(weatherDomainModel) } returns weatherModel
 
-        val actualUiState = interactor.fetchWeather()
+        val actualUiState: HomePageViewModel.UiState = interactor.fetchWeather()
 
         coVerify { weatherDataStoreRepository.saveData(weatherDomainModel) }
+
+        val expectedUiState: HomePageViewModel.UiState = HomePageViewModel.UiState.Success(weatherModel)
+
+        assertEquals(expectedUiState, actualUiState)
     }
 }

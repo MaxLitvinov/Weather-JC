@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.jc.weather.foundation.resources.R
+import com.jc.weather.R
 import com.jc.weather.home_page.model.DayForecast
 
 @Composable

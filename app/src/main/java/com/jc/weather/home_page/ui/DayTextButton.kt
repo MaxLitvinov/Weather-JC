@@ -23,7 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jc.weather.foundation.resources.R
+import com.jc.weather.R
 import com.jc.weather.foundation.resources.WeatherJCTheme
 import com.jc.weather.foundation.resources.mainTextStyle
 
