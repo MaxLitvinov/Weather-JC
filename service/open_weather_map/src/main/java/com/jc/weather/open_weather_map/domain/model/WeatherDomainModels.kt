@@ -1,5 +1,12 @@
 package com.jc.weather.open_weather_map.domain.model
 
+sealed class WeatherDomainResult {
+
+    data class Success(val model: WeatherDomainModel) : WeatherDomainResult()
+
+    data class Failure(val error: String?) : WeatherDomainResult()
+}
+
 data class WeatherDomainModel(
     val latitude: Float,
     val longitude: Float,

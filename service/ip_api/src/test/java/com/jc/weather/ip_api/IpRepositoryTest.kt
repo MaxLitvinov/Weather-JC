@@ -3,14 +3,16 @@ package com.jc.weather.ip_api
 import com.jc.weather.ip_api.data.api.IpApi
 import com.jc.weather.ip_api.data.dto.IpDto
 import com.jc.weather.ip_api.domain.mapper.IpDtoMapper
-import com.jc.weather.ip_api.domain.model.IpDomainModel
+import com.jc.weather.ip_api.domain.model.IpDomainResult
 import com.jc.weather.ip_api.domain.repository.IpRepository
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import retrofit2.Response
 
 class IpRepositoryTest {
 
@@ -42,26 +44,29 @@ class IpRepositoryTest {
         val org = ""
         val _as = "AS212238 Datacamp Limited"
 
-        val ipDtoModel = IpDto(
-            query = query,
-            status = status,
-            country = country,
-            countryCode = countryCode,
-            region = region,
-            regionName = regionName,
-            city = city,
-            zip = zip,
-            lat = lat,
-            lon = lon,
-            timezone = timezone,
-            isp = isp,
-            org = org,
-            _as = _as
-        )
+        val response = mockk<Response<IpDto>> {
+            every { isSuccessful } returns true
+            every { body() } returns IpDto(
+                query = query,
+                status = status,
+                country = country,
+                countryCode = countryCode,
+                region = region,
+                regionName = regionName,
+                city = city,
+                zip = zip,
+                lat = lat,
+                lon = lon,
+                timezone = timezone,
+                isp = isp,
+                org = org,
+                _as = _as
+            )
+        }
 
-        coEvery { api.fetchLocation() } returns ipDtoModel
+        coEvery { api.fetchLocation() } returns response
 
-        val expectedResult = IpDomainModel(
+        val expectedResult = IpDomainResult.Success(
             query = query,
             status = status,
             country = country,

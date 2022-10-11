@@ -1,13 +1,13 @@
 package com.jc.weather.ip_api.domain.mapper
 
 import com.jc.weather.ip_api.data.dto.IpDto
-import com.jc.weather.ip_api.domain.model.IpDomainModel
+import com.jc.weather.ip_api.domain.model.IpDomainResult
 import javax.inject.Inject
 
 class IpDtoMapper @Inject constructor() {
 
     fun mapToDomain(dto: IpDto) = with(dto) {
-        IpDomainModel(
+        IpDomainResult.Success(
             query = query,
             status = status,
             country = country,

@@ -4,8 +4,10 @@ import android.content.Context
 import com.jc.weather.R
 import com.jc.weather.home_page.HomePageViewModel
 import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
+import com.jc.weather.ip_api.domain.model.IpDomainResult
 import com.jc.weather.ip_api.domain.repository.IpRepository
 import com.jc.weather.open_weather_map.data.data_store.WeatherDataStoreRepository
+import com.jc.weather.open_weather_map.domain.model.WeatherDomainResult
 import com.jc.weather.open_weather_map.domain.repository.WeatherForecastRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -18,17 +20,30 @@ class HomePageInteractor @Inject constructor(
     private val mapper: WeatherDomainModelMapper
 ) {
 
-    suspend fun fetchWeather(): HomePageViewModel.UiState =
-        try {
-            val locationModel = ipRepository.fetchLocation()
-            val weatherDomainModel = weatherForecastRepository.fetchWeather("${locationModel.lat}", "${locationModel.lon}")
+    suspend fun fetchWeather(): HomePageViewModel.UiState = handleLocation()
 
-            weatherDataStoreRepository.saveData(weatherDomainModel)
-
-            val weatherUiModel = mapper.mapToUiModel(weatherDomainModel, locationModel.city)
-            HomePageViewModel.UiState.Success(weatherUiModel)
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            HomePageViewModel.UiState.Failure(ex.message ?: context.getString(R.string.something_went_wrong))
+    private suspend fun handleLocation(): HomePageViewModel.UiState =
+        when (val ipDomainResult = ipRepository.fetchLocation()) {
+            is IpDomainResult.Success -> handleWeather(ipDomainResult)
+            is IpDomainResult.Failure -> failure(ipDomainResult.error)
         }
+
+    private fun failure(errorMessage: String?) = HomePageViewModel.UiState.Failure(
+        errorMessage ?: context.getString(R.string.something_went_wrong)
+    )
+
+    private suspend fun handleWeather(
+        ipDomainResult: IpDomainResult.Success
+    ): HomePageViewModel.UiState = with(ipDomainResult) {
+        when (val weatherDomainResult = weatherForecastRepository.fetchWeather("$lat", "$lon")) {
+            is WeatherDomainResult.Success -> {
+                val weatherDomainModel = weatherDomainResult.model
+                weatherDataStoreRepository.saveData(weatherDomainModel)
+
+                val weatherUiModel = mapper.mapToUiModel(weatherDomainModel, city)
+                HomePageViewModel.UiState.Success(weatherUiModel)
+            }
+            is WeatherDomainResult.Failure -> failure(weatherDomainResult.error)
+        }
+    }
 }

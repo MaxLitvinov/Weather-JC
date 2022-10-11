@@ -2,7 +2,7 @@ package com.jc.weather.ip_api
 
 import com.jc.weather.ip_api.data.dto.IpDto
 import com.jc.weather.ip_api.domain.mapper.IpDtoMapper
-import com.jc.weather.ip_api.domain.model.IpDomainModel
+import com.jc.weather.ip_api.domain.model.IpDomainResult
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -50,7 +50,7 @@ class IpDtoMapperTest {
             _as = _as
         )
 
-        val expectedDomainModel = IpDomainModel(
+        val expectedDomainModel = IpDomainResult.Success(
             query = query,
             status = status,
             country = country,

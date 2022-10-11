@@ -6,7 +6,7 @@ import com.jc.weather.home_page.HomePageViewModel
 import com.jc.weather.home_page.core.HomePageInteractor
 import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
 import com.jc.weather.home_page.model.WeatherModel
-import com.jc.weather.ip_api.domain.model.IpDomainModel
+import com.jc.weather.ip_api.domain.model.IpDomainResult
 import com.jc.weather.ip_api.domain.repository.IpRepository
 import com.jc.weather.open_weather_map.data.data_store.WeatherDataStoreRepository
 import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
@@ -66,7 +66,7 @@ class HomePageInteractorTest {
 
     @Test
     fun `When fetch weather returns success`() = runBlocking {
-        val ipDomainModel = mockk<IpDomainModel>(relaxed = true) {
+        val ipDomainModel = mockk<IpDomainResult.Success>(relaxed = true) {
             every { lat } returns fakeLatitude
             every { lon } returns fakeLongitude
             every { city } returns fakeCity
@@ -119,7 +119,7 @@ class HomePageInteractorTest {
 
     @Test
     fun `When fetch weather returns failure on fetching weather data`() = runBlocking {
-        val ipDomainModel = mockk<IpDomainModel>(relaxed = true) {
+        val ipDomainModel = mockk<IpDomainResult.Success>(relaxed = true) {
             every { lat } returns fakeLatitude
             every { lon } returns fakeLongitude
             every { city } returns fakeCity
@@ -137,7 +137,7 @@ class HomePageInteractorTest {
 
     @Test
     fun `When fetch weather returns failure on saving data`() = runBlocking {
-        val ipDomainModel = mockk<IpDomainModel>(relaxed = true) {
+        val ipDomainModel = mockk<IpDomainResult.Success>(relaxed = true) {
             every { lat } returns fakeLatitude
             every { lon } returns fakeLongitude
             every { city } returns fakeCity
@@ -158,7 +158,7 @@ class HomePageInteractorTest {
 
     @Test
     fun `When fetch weather returns failure on mapping domain model to UI model`() = runBlocking {
-        val ipDomainModel = mockk<IpDomainModel>(relaxed = true) {
+        val ipDomainModel = mockk<IpDomainResult.Success>(relaxed = true) {
             every { lat } returns fakeLatitude
             every { lon } returns fakeLongitude
             every { city } returns fakeCity
