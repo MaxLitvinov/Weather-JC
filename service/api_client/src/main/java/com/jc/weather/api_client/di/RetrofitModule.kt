@@ -1,6 +1,7 @@
 package com.jc.weather.api_client.di
 
 import com.google.gson.Gson
+import com.jc.weather.api_client.di.factory.network_response.NetworkResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +29,7 @@ class RetrofitModule {
         Retrofit.Builder()
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(NetworkResponseCallAdapterFactory.create())
 
     @Provides
     fun provideOkHttpClient(): OkHttpClient =

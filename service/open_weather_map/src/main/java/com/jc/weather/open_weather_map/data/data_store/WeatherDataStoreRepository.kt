@@ -28,8 +28,12 @@ class WeatherDataStoreRepository @Inject constructor(
 
     suspend fun saveData(model: WeatherDomainModel) {
         val json: String = mapToJson(model)
-        dataStore.edit { settings ->
-            settings[WEATHER_DATA_PREFS_KEY] = json
+        try {
+            dataStore.edit { settings ->
+                settings[WEATHER_DATA_PREFS_KEY] = json
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -37,9 +41,13 @@ class WeatherDataStoreRepository @Inject constructor(
         gson.toJson(model, WeatherDomainModel::class.java)
 
     suspend fun getData(): WeatherDomainModel? {
-        val preferences = dataStore.data.first()
-        preferences[WEATHER_DATA_PREFS_KEY]?.let { json ->
-            return mapToDomainModel(json)
+        try {
+            val preferences = dataStore.data.first()
+            preferences[WEATHER_DATA_PREFS_KEY]?.let { json ->
+                return mapToDomainModel(json)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return null
     }

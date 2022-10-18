@@ -2,6 +2,7 @@ package com.jc.weather.pages.home
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.jc.weather.R
 import com.jc.weather.home_page.HomePageViewModel
 import com.jc.weather.home_page.core.HomePageInteractor
 import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
@@ -9,7 +10,7 @@ import com.jc.weather.home_page.model.WeatherModel
 import com.jc.weather.ip_api.domain.model.IpDomainResult
 import com.jc.weather.ip_api.domain.repository.IpRepository
 import com.jc.weather.open_weather_map.data.data_store.WeatherDataStoreRepository
-import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
+import com.jc.weather.open_weather_map.domain.model.WeatherDomainResult
 import com.jc.weather.open_weather_map.domain.repository.WeatherForecastRepository
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -23,7 +24,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import java.io.IOException
 
 private const val fakeLatitude = 33.8743
 private const val fakeLongitude = -84.4653
@@ -32,6 +32,7 @@ private const val fakeIconUrl = "iconUrl"
 private const val fakeTemperature = "9.39"
 private const val fakeDescription = "Overcast clouds"
 private const val fakeError = "Error"
+private const val fakeErrorFromContext = "Something went wrong.\nPlease, check your internet connection or try again later."
 
 class HomePageInteractorTest {
 
@@ -62,24 +63,28 @@ class HomePageInteractorTest {
             weatherDataStoreRepository,
             weatherDomainModelMapper
         )
+
+        every { context.getString(R.string.something_went_wrong) } returns fakeErrorFromContext
     }
 
     @Test
-    fun `When fetch weather returns success`() = runBlocking {
-        val ipDomainModel = mockk<IpDomainResult.Success>(relaxed = true) {
+    fun `Check fetch weather is successful`() = runBlocking {
+        val ipDomainResult = mockk<IpDomainResult.Success>(relaxed = true) {
             every { lat } returns fakeLatitude
             every { lon } returns fakeLongitude
             every { city } returns fakeCity
         }
-        coEvery { ipRepository.fetchLocation() } returns ipDomainModel
+        coEvery { ipRepository.fetchLocation() } returns ipDomainResult
 
-        val weatherDomainModel = mockk<WeatherDomainModel>(relaxed = true) {
-            every { latitude } returns 33.8743F
-            every { longitude } returns -84.4653F
+        val weatherDomainResult = mockk<WeatherDomainResult.Success>(relaxed = true) {
+            every { model } returns mockk(relaxed = true) {
+                every { latitude } returns 33.8743F
+                every { longitude } returns -84.4653F
+            }
         }
-        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } returns weatherDomainModel
+        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } returns weatherDomainResult
 
-        coEvery { weatherDataStoreRepository.saveData(weatherDomainModel) } just Runs
+        coEvery { weatherDataStoreRepository.saveData(weatherDomainResult.model) } just Runs
 
         val weatherUiModel = mockk<WeatherModel>(relaxed = true) {
             every { city } returns fakeCity
@@ -88,11 +93,11 @@ class HomePageInteractorTest {
             every { weatherDescription } returns fakeDescription
             every { dailyForecasts } returns listOf()
         }
-        every { weatherDomainModelMapper.mapToUiModel(weatherDomainModel, fakeCity) } returns weatherUiModel
+        every { weatherDomainModelMapper.mapToUiModel(weatherDomainResult.model, fakeCity) } returns weatherUiModel
 
         val actualUiState: HomePageViewModel.UiState = interactor.fetchWeather()
 
-        coVerify { weatherDataStoreRepository.saveData(weatherDomainModel) }
+        coVerify { weatherDataStoreRepository.saveData(weatherDomainResult.model) }
 
         val expectedWeatherModel = WeatherModel(
             city = fakeCity,
@@ -107,8 +112,25 @@ class HomePageInteractorTest {
     }
 
     @Test
-    fun `When fetch weather returns failure on fetching location`() = runBlocking {
-        coEvery { ipRepository.fetchLocation() } throws Exception(fakeError)
+    fun `Check fetch location fails`() = runBlocking {
+        val ipDomainResult = mockk<IpDomainResult.Failure>(relaxed = true) {
+            every { error } returns null
+        }
+        coEvery { ipRepository.fetchLocation() } returns ipDomainResult
+
+        val actualUiState: HomePageViewModel.UiState = interactor.fetchWeather()
+
+        val expectedUiState: HomePageViewModel.UiState = HomePageViewModel.UiState.Failure(fakeErrorFromContext)
+
+        assertEquals(expectedUiState, actualUiState)
+    }
+
+    @Test
+    fun `Check fetch location fails with error message`() = runBlocking {
+        val ipDomainResult = mockk<IpDomainResult.Failure>(relaxed = true) {
+            every { error } returns fakeError
+        }
+        coEvery { ipRepository.fetchLocation() } returns ipDomainResult
 
         val actualUiState: HomePageViewModel.UiState = interactor.fetchWeather()
 
@@ -118,66 +140,41 @@ class HomePageInteractorTest {
     }
 
     @Test
-    fun `When fetch weather returns failure on fetching weather data`() = runBlocking {
-        val ipDomainModel = mockk<IpDomainResult.Success>(relaxed = true) {
+    fun `Check fetch weather fails`() = runBlocking {
+        val ipDomainResult = mockk<IpDomainResult.Success>(relaxed = true) {
             every { lat } returns fakeLatitude
             every { lon } returns fakeLongitude
             every { city } returns fakeCity
         }
-        coEvery { ipRepository.fetchLocation() } returns ipDomainModel
+        coEvery { ipRepository.fetchLocation() } returns ipDomainResult
 
-        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } throws Exception(fakeError)
+        val weatherDomainResult = mockk<WeatherDomainResult.Failure>(relaxed = true) {
+            every { error } returns null
+        }
+        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } returns weatherDomainResult
 
         val actualUiState: HomePageViewModel.UiState = interactor.fetchWeather()
 
-        val expectedUiState: HomePageViewModel.UiState = HomePageViewModel.UiState.Failure(fakeError)
+        val expectedUiState: HomePageViewModel.UiState = HomePageViewModel.UiState.Failure(fakeErrorFromContext)
 
         assertEquals(expectedUiState, actualUiState)
     }
 
     @Test
-    fun `When fetch weather returns failure on saving data`() = runBlocking {
-        val ipDomainModel = mockk<IpDomainResult.Success>(relaxed = true) {
+    fun `Check fetch weather fails with error message`() = runBlocking {
+        val ipDomainResult = mockk<IpDomainResult.Success>(relaxed = true) {
             every { lat } returns fakeLatitude
             every { lon } returns fakeLongitude
             every { city } returns fakeCity
         }
-        coEvery { ipRepository.fetchLocation() } returns ipDomainModel
+        coEvery { ipRepository.fetchLocation() } returns ipDomainResult
 
-        val weatherDomainModel = mockk<WeatherDomainModel>()
-        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } returns weatherDomainModel
-
-        coEvery { weatherDataStoreRepository.saveData(weatherDomainModel) } throws IOException(fakeError)
+        val weatherDomainResult = mockk<WeatherDomainResult.Failure>(relaxed = true) {
+            every { error } returns fakeError
+        }
+        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } returns weatherDomainResult
 
         val actualUiState: HomePageViewModel.UiState = interactor.fetchWeather()
-
-        val expectedUiState: HomePageViewModel.UiState = HomePageViewModel.UiState.Failure(fakeError)
-
-        assertEquals(expectedUiState, actualUiState)
-    }
-
-    @Test
-    fun `When fetch weather returns failure on mapping domain model to UI model`() = runBlocking {
-        val ipDomainModel = mockk<IpDomainResult.Success>(relaxed = true) {
-            every { lat } returns fakeLatitude
-            every { lon } returns fakeLongitude
-            every { city } returns fakeCity
-        }
-        coEvery { ipRepository.fetchLocation() } returns ipDomainModel
-
-        val weatherDomainModel = mockk<WeatherDomainModel>(relaxed = true) {
-            every { latitude } returns 33.8743F
-            every { longitude } returns -84.4653F
-        }
-        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } returns weatherDomainModel
-
-        coEvery { weatherDataStoreRepository.saveData(weatherDomainModel) } just Runs
-
-        every { weatherDomainModelMapper.mapToUiModel(weatherDomainModel, fakeCity) } throws IOException(fakeError)
-
-        val actualUiState: HomePageViewModel.UiState = interactor.fetchWeather()
-
-        coVerify { weatherDataStoreRepository.saveData(weatherDomainModel) }
 
         val expectedUiState: HomePageViewModel.UiState = HomePageViewModel.UiState.Failure(fakeError)
 

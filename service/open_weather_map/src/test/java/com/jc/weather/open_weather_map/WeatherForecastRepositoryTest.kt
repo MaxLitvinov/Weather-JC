@@ -1,5 +1,6 @@
 package com.jc.weather.open_weather_map
 
+import com.jc.weather.api_client.di.factory.network_response.NetworkResponse
 import com.jc.weather.open_weather_map.data.api.OpenWeatherMapApi
 import com.jc.weather.open_weather_map.data.dto.CurrentDto
 import com.jc.weather.open_weather_map.data.dto.DailyDto
@@ -15,14 +16,16 @@ import com.jc.weather.open_weather_map.domain.model.FeelsLikeDomainModel
 import com.jc.weather.open_weather_map.domain.model.TemperatureDomainModel
 import com.jc.weather.open_weather_map.domain.model.WeatherDetailsDomainModel
 import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
+import com.jc.weather.open_weather_map.domain.model.WeatherDomainResult
 import com.jc.weather.open_weather_map.domain.repository.WeatherForecastRepository
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.io.IOException
 
 class WeatherForecastRepositoryTest {
 
@@ -38,7 +41,7 @@ class WeatherForecastRepositoryTest {
     }
 
     @Test
-    fun `Check fetch weather`() = runBlocking {
+    fun `Check fetch weather returns success`() = runBlocking {
         val latitude = 51.5008F
         val longitude = 31.2945F
 
@@ -63,12 +66,81 @@ class WeatherForecastRepositoryTest {
         val day7Domain = DailyDomainModel(time = 1663664400, sunriseTime = 1663645037, sunsetTime = 1663689572, moonriseTime = 0, moonsetTime = 1663683840, moonPhase = 0.82F, temperature = TemperatureDomainModel(day = 11.98F, min = 7.19F, max = 12.35F, night = 11.08F, evening = 12.35F, morning = 7.19F), feelsLike = FeelsLikeDomainModel(day = 11.24F, night = 10.46F, evening = 11.73F, morning = 4.28F), pressure = 1014, humidity = 77, dewPoint = 8.06F, windSpeed = 6.64F, windDeg = 257, windGust = 11.41F, clouds = 100, pop = 0.27F, rain = 0.12F, uvIndex = 1.0F, snow = null)
         val day8Domain = DailyDomainModel(time = 1663750800, sunriseTime = 1663731533, sunsetTime = 1663775832, moonriseTime = 1663710600, moonsetTime = 1663771920, moonPhase = 0.85F, temperature = TemperatureDomainModel(day = 14.76F, min = 8.89F, max = 16.06F, night = 12.74F, evening = 14.19F, morning = 8.89F), feelsLike = FeelsLikeDomainModel(day = 13.78F, night = 11.66F, evening = 13.21F, morning = 7.93F), pressure = 1021, humidity = 57, dewPoint = 6.44F, windSpeed = 3.93F, windDeg = 35, windGust = 8.24F, clouds = 96, pop = 0.2F, rain = 0.13F, uvIndex = 1.0F, snow = null)
         val expectedWeatherDomainModel = WeatherDomainModel(latitude = latitude, longitude = longitude, timezone = "Europe/Kiev", timezoneOffset = 10800, currentWeather = CurrentWeatherDomainModel(currentTime = 1663109294, sunriseTime = 1663126067, sunsetTime = 1663172008, temperature = 9.69F, feelsLike = 8.63F, pressure = 1006, humidity = 94, dewPoint = 8.77F, uvIndex = 0.0F, clouds = 100, visibility = 10000, windSpeed = 2.26F, windDeg = 317, windGust = 5.95F, weatherDetails = WeatherDetailsDomainModel(id = 500, mainDescription = "Rain", detailedDescription = "light rain", iconUrl = "https://openweathermap.org/img/wn/10n@2x.png"), lastHourRainVolume = 0.12F, lastHourSnowVolume = null), dailyForecasts = listOf(todayDomain, tomorrowDomain, day3Domain, day4Domain, day5Domain, day6Domain, day7Domain, day8Domain))
+        val expectedResult: WeatherDomainResult = WeatherDomainResult.Success(expectedWeatherDomainModel)
 
-        coEvery { api.fetchWeather("$latitude", "$longitude") } returns weatherDto
+        val response = mockk<NetworkResponse.Success<WeatherDto, Any>> {
+            every { body } returns weatherDto
+            every { response } returns mockk()
+        }
+        coEvery { api.fetchWeather("$latitude", "$longitude") } returns response
         every { weatherDtoMapper.mapToDomainModel(weatherDto) } returns expectedWeatherDomainModel
 
-        val actualWeatherDomainModel = repository.fetchWeather("$latitude", "$longitude")
+        val actualResult: WeatherDomainResult = repository.fetchWeather("$latitude", "$longitude")
 
-        Assert.assertEquals(expectedWeatherDomainModel, actualWeatherDomainModel)
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun `Check fetch weather returns server error`() = runBlocking {
+        val latitude = "51.5008"
+        val longitude = "31.2945"
+
+        val errorCode = 500
+        val errorMessage = "Server error message"
+
+        val response = mockk<NetworkResponse.ServerError<WeatherDto, Any>> {
+            every { code } returns errorCode
+            every { error } returns Exception(errorMessage)
+        }
+        coEvery { api.fetchWeather(latitude, longitude) } returns response
+
+        val actualResult: WeatherDomainResult = repository.fetchWeather(latitude, longitude)
+
+        val expectedResult = WeatherDomainResult.Failure("Server error code: $errorCode, message: $errorMessage")
+
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun `Check fetch weather returns network error`() = runBlocking {
+        val latitude = "51.5008"
+        val longitude = "31.2945"
+
+        val errorBody: Any? = null
+        val errorMessage = "Network error message"
+
+        val response = mockk<NetworkResponse.NetworkError<WeatherDto, Any>> {
+            every { body } returns errorBody
+            every { error } returns IOException(errorMessage)
+        }
+        coEvery { api.fetchWeather(latitude, longitude) } returns response
+
+        val actualResult: WeatherDomainResult = repository.fetchWeather(latitude, longitude)
+
+        val expectedErrorMessage = "Network error body - $errorBody, message - $errorMessage"
+        val expectedResult = WeatherDomainResult.Failure(expectedErrorMessage)
+
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun `Check fetch weather returns unknown error`() = runBlocking {
+        val latitude = "51.5008"
+        val longitude = "31.2945"
+
+        val errorCode = 500
+
+        val response = mockk<NetworkResponse.UnknownError<WeatherDto, Any>> {
+            every { code } returns errorCode
+            every { error } returns Exception("Unknown error message")
+        }
+        coEvery { api.fetchWeather(latitude, longitude) } returns response
+
+        val actualResult: WeatherDomainResult = repository.fetchWeather(latitude, longitude)
+
+        val expectedErrorMessage = "Unknown error code - $errorCode"
+        val expectedResult = WeatherDomainResult.Failure(expectedErrorMessage)
+
+        assertEquals(expectedResult, actualResult)
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,6 +46,7 @@ fun ExpandableWeatherDetails(
     ) {
         CollapsedView(
             model = model,
+            rotationAngle = handleRotationAngle(isExpanded),
             onClick = onClick
         )
         ExpandableContent(
@@ -55,7 +57,11 @@ fun ExpandableWeatherDetails(
 }
 
 @Composable
-private fun CollapsedView(model: CollapsedModel, onClick: () -> Unit) = with(model) {
+private fun CollapsedView(
+    model: CollapsedModel,
+    rotationAngle: Float,
+    onClick: () -> Unit
+) = with(model) {
     Button(
         onClick = onClick,
         modifier = Modifier
@@ -74,7 +80,7 @@ private fun CollapsedView(model: CollapsedModel, onClick: () -> Unit) = with(mod
             description = generalDescription
         )
         Temperature(temperature = temperature)
-        ChevronDownIcon()
+        ChevronDownIcon(rotationAngle)
     }
 }
 
@@ -141,7 +147,7 @@ private fun RowScope.Temperature(temperature: Float) {
 }
 
 @Composable
-private fun RowScope.ChevronDownIcon() {
+private fun RowScope.ChevronDownIcon(rotationAngle: Float) {
     Image(
         painter = painterResource(R.drawable.ic_chevron_down),
         contentDescription = null,
@@ -149,8 +155,15 @@ private fun RowScope.ChevronDownIcon() {
             .weight(0.1F)
             .size(iconSize, iconSize)
             .padding(horizontal = 12.dp)
+            .rotate(rotationAngle)
     )
 }
+
+private fun handleRotationAngle(isExpanded: Boolean): Float =
+    when (isExpanded) {
+        true -> 180.0F
+        false -> 0F
+    }
 
 @Preview(name = "Collapsed preview", showBackground = false)
 @Composable

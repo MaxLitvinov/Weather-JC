@@ -1,7 +1,7 @@
 package com.jc.weather.open_weather_map.domain.mapper
 
-import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
 import com.jc.weather.open_weather_map.data.dto.WeatherDto
+import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
 import javax.inject.Inject
 
 class WeatherDtoMapper @Inject constructor(

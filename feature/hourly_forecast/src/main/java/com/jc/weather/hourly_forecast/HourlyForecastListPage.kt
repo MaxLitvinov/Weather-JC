@@ -17,8 +17,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jc.weather.dialog.ProgressDialog
 import com.jc.weather.R
+import com.jc.weather.dialog.ProgressDialog
 import com.jc.weather.foundation.resources.WeatherJCTheme
 import com.jc.weather.hourly_forecast.model.CollapsedModel
 import com.jc.weather.hourly_forecast.ui.ExpandableWeatherDetails

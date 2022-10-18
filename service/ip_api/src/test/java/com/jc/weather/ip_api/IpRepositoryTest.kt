@@ -1,5 +1,6 @@
 package com.jc.weather.ip_api
 
+import com.jc.weather.api_client.di.factory.network_response.NetworkResponse
 import com.jc.weather.ip_api.data.api.IpApi
 import com.jc.weather.ip_api.data.dto.IpDto
 import com.jc.weather.ip_api.domain.mapper.IpDtoMapper
@@ -9,10 +10,11 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import retrofit2.Response
+import java.io.IOException
+import java.net.SocketTimeoutException
 
 class IpRepositoryTest {
 
@@ -28,7 +30,7 @@ class IpRepositoryTest {
     }
 
     @Test
-    fun `Check fetch location`() = runBlocking {
+    fun `Check fetch location returns success`() = runBlocking {
         val query = "31.14.75.23"
         val status = "success"
         val country = "Ukraine"
@@ -44,9 +46,8 @@ class IpRepositoryTest {
         val org = ""
         val _as = "AS212238 Datacamp Limited"
 
-        val response = mockk<Response<IpDto>> {
-            every { isSuccessful } returns true
-            every { body() } returns IpDto(
+        val response = mockk<NetworkResponse.Success<IpDto, Any>> {
+            every { body } returns IpDto(
                 query = query,
                 status = status,
                 country = country,
@@ -85,6 +86,85 @@ class IpRepositoryTest {
 
         val actualResult = ipRepository.fetchLocation()
 
-        Assert.assertEquals(expectedResult, actualResult)
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun `Check fetch location returns server error`() = runBlocking {
+        val errorCode = 500
+        val errorMessage = "Server error message"
+
+        val response = mockk<NetworkResponse.ServerError<IpDto, Any>> {
+            every { code } returns errorCode
+            every { error } returns Exception(errorMessage)
+        }
+
+        coEvery { api.fetchLocation() } returns response
+
+        val actualResult = ipRepository.fetchLocation()
+
+        val expectedErrorMessage = "Server error code - $errorCode, message - $errorMessage"
+        val expectedResult = IpDomainResult.Failure(expectedErrorMessage)
+
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun `Check fetch location returns network error`() = runBlocking {
+        val errorBody: Any? = null
+        val errorMessage = "Network error message"
+
+        val response = mockk<NetworkResponse.NetworkError<IpDto, Any>> {
+            every { body } returns errorBody
+            every { error } returns IOException(errorMessage)
+        }
+
+        coEvery { api.fetchLocation() } returns response
+
+        val actualResult = ipRepository.fetchLocation()
+
+        val expectedErrorMessage = "Network error body - $errorBody, message - $errorMessage"
+        val expectedResult = IpDomainResult.Failure(expectedErrorMessage)
+
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun `Check fetch location returns socket timeout exception`() = runBlocking {
+        val errorBody: Any? = null
+        val errorMessage = "failed to connect to ip-api.com/208.95.112.1 (port 80) from /192.168.0.21 (port 42554) after 15000ms"
+
+        val response = mockk<NetworkResponse.NetworkError<IpDto, Any>> {
+            every { body } returns errorBody
+            every { error } returns SocketTimeoutException(errorMessage)
+        }
+
+        coEvery { api.fetchLocation() } returns response
+
+        val actualResult = ipRepository.fetchLocation()
+
+        val expectedErrorMessage = "Network error body - $errorBody, message - $errorMessage"
+        val expectedResult = IpDomainResult.Failure(expectedErrorMessage)
+
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun `Check fetch location returns unknown error`() = runBlocking {
+        val errorCode = 500
+
+        val response = mockk<NetworkResponse.UnknownError<IpDto, Any>> {
+            every { code } returns errorCode
+            every { error } returns Exception("Unknown error message")
+        }
+
+        coEvery { api.fetchLocation() } returns response
+
+        val actualResult = ipRepository.fetchLocation()
+
+        val expectedErrorMessage = "Unknown error code - $errorCode"
+        val expectedResult = IpDomainResult.Failure(expectedErrorMessage)
+
+        assertEquals(expectedResult, actualResult)
     }
 }

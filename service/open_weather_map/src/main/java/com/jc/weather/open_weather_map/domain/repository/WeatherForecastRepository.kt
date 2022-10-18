@@ -1,10 +1,10 @@
 package com.jc.weather.open_weather_map.domain.repository
 
-import com.jc.weather.api_client.di.NetworkResult
-import com.jc.weather.api_client.di.handleApi
-import com.jc.weather.open_weather_map.domain.mapper.WeatherDtoMapper
+import com.jc.weather.api_client.di.factory.network_response.NetworkResponse
 import com.jc.weather.open_weather_map.data.api.OpenWeatherMapApi
 import com.jc.weather.open_weather_map.data.dto.WeatherDto
+import com.jc.weather.open_weather_map.domain.mapper.WeatherDtoMapper
+import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
 import com.jc.weather.open_weather_map.domain.model.WeatherDomainResult
 import javax.inject.Inject
 
@@ -14,19 +14,16 @@ class WeatherForecastRepository @Inject constructor(
 ) {
 
     suspend fun fetchWeather(lat: String, lon: String): WeatherDomainResult =
-        when (val networkResult: NetworkResult<WeatherDto, Nothing> = handleApi { api.fetchWeather(lat, lon) }) {
-            is NetworkResult.Success -> {
-                val weatherDto = networkResult.data
-                WeatherDomainResult.Success(mapper.mapToDomainModel(weatherDto))
+        when (val response: NetworkResponse<WeatherDto, Any> = api.fetchWeather(lat, lon)) {
+            is NetworkResponse.Success -> {
+                val model: WeatherDomainModel = mapper.mapToDomainModel(response.body)
+                WeatherDomainResult.Success(model)
             }
-            is NetworkResult.Error -> {
-                val errorCode = networkResult.code
-                val errorMessage = networkResult.message
-                WeatherDomainResult.Failure("Error code: $errorCode, message: $errorMessage")
-            }
-            is NetworkResult.Exception -> {
-                val errorMessage = networkResult.error
-                WeatherDomainResult.Failure("Error message: $errorMessage")
-            }
+            is NetworkResponse.ServerError ->
+                WeatherDomainResult.Failure("Server error code: ${response.code}, message: ${response.error?.message}")
+            is NetworkResponse.NetworkError ->
+                WeatherDomainResult.Failure("Network error body - ${response.body}, message - ${response.error.message}")
+            is NetworkResponse.UnknownError ->
+                WeatherDomainResult.Failure("Unknown error code - ${response.code}")
         }
 }
