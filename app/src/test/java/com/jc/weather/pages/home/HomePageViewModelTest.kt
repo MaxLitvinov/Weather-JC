@@ -1,9 +1,10 @@
 package com.jc.weather.pages.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.jc.weather.pages.home.core.HomePageInteractor
-import com.jc.weather.pages.home.model.DayForecast
-import com.jc.weather.pages.home.model.WeatherModel
+import com.jc.weather.home_page.HomePageViewModel
+import com.jc.weather.home_page.core.HomePageInteractor
+import com.jc.weather.home_page.model.DayForecast
+import com.jc.weather.home_page.model.WeatherModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -38,25 +39,25 @@ class HomePageViewModelTest {
             "11.5",
             "Overcast clouds",
             listOf(
-                DayForecast("Today", 0.0, 11.52, 0.0, 10.16, 0.0, 0.0),
-                DayForecast("Tomorrow", 0.0, 16.1, 0.0, 11.97, 0.0, 0.0),
-                DayForecast("15.09 Thursday", 0.0, 17.9, 0.0, 12.89, 0.0, 0.0),
-                DayForecast("16.09 Friday", 0.0, 17.68, 0.0, 16.12, 0.0, 0.0),
-                DayForecast("17.09 Saturday", 0.0, 13.14, 0.0, 10.54, 0.0, 0.0),
-                DayForecast("18.09 Sunday", 0.0, 13.34, 0.0, 13.15, 0.0, 0.0),
-                DayForecast("19.09 Monday", 0.0, 10.93, 0.0, 10.92, 0.0, 0.0),
-                DayForecast("20.09 Tuesday", 0.0, 14.94, 0.0, 11.3, 0.0, 0.0)
+                DayForecast("Today", 0.0F, 11.52F, 0.0F, 10.16F, 0.0F, 0.0F),
+                DayForecast("Tomorrow", 0.0F, 16.1F, 0.0F, 11.97F, 0.0F, 0.0F),
+                DayForecast("15.09 Thursday", 0.0F, 17.9F, 0.0F, 12.89F, 0.0F, 0.0F),
+                DayForecast("16.09 Friday", 0.0F, 17.68F, 0.0F, 16.12F, 0.0F, 0.0F),
+                DayForecast("17.09 Saturday", 0.0F, 13.14F, 0.0F, 10.54F, 0.0F, 0.0F),
+                DayForecast("18.09 Sunday", 0.0F, 13.34F, 0.0F, 13.15F, 0.0F, 0.0F),
+                DayForecast("19.09 Monday", 0.0F, 10.93F, 0.0F, 10.92F, 0.0F, 0.0F),
+                DayForecast("20.09 Tuesday", 0.0F, 14.94F, 0.0F, 11.3F, 0.0F, 0.0F)
             )
         )
-        coEvery { interactor.fetchWeather() } returns HomePageViewModel.WeatherUiState.Success(weatherModel)
+        coEvery { interactor.fetchWeather() } returns HomePageViewModel.UiState.Success(weatherModel)
 
-        Assert.assertEquals(HomePageViewModel.WeatherUiState.Loading, viewModel.uiState.value)
+        Assert.assertEquals(HomePageViewModel.UiState.Loading, viewModel.uiState.value)
 
         viewModel.fetchWeather()
 
         coVerify { interactor.fetchWeather() }
 
-        val expectedWeatherModel = HomePageViewModel.WeatherUiState.Success(weatherModel)
+        val expectedWeatherModel = HomePageViewModel.UiState.Success(weatherModel)
 
         Assert.assertEquals(expectedWeatherModel, viewModel.uiState.value)
     }
@@ -64,15 +65,15 @@ class HomePageViewModelTest {
     @Test
     fun `Failure fetch request`() = runBlocking {
         val errorMessage = "Some error"
-        coEvery { interactor.fetchWeather() } returns HomePageViewModel.WeatherUiState.Failure(errorMessage)
+        coEvery { interactor.fetchWeather() } returns HomePageViewModel.UiState.Failure(errorMessage)
 
-        Assert.assertEquals(HomePageViewModel.WeatherUiState.Loading, viewModel.uiState.value)
+        Assert.assertEquals(HomePageViewModel.UiState.Loading, viewModel.uiState.value)
 
         viewModel.fetchWeather()
 
         coVerify { interactor.fetchWeather() }
 
-        val expectedWeatherModel = HomePageViewModel.WeatherUiState.Failure(errorMessage)
+        val expectedWeatherModel = HomePageViewModel.UiState.Failure(errorMessage)
 
         Assert.assertEquals(expectedWeatherModel, viewModel.uiState.value)
     }
