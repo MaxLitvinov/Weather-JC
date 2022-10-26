@@ -8,7 +8,6 @@ import android.view.animation.AnticipateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.animation.doOnEnd
-import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreenViewProvider
 import com.jc.weather.ui.WeatherApp
@@ -28,11 +27,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().apply {
+            /* TODO: Keep splash screen displayed?
             setKeepOnScreenCondition(object : SplashScreen.KeepOnScreenCondition {
                 override fun shouldKeepOnScreen(): Boolean {
                     return viewModel.shouldKeepSplashScreenVisible
                 }
-            })
+            })*/
             setOnExitAnimationListener { splashScreenViewProvider ->
                 initAnimation(splashScreenViewProvider) {
                     setContent {
