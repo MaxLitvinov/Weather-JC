@@ -4,6 +4,7 @@
     <style name="Theme.WeatherJC" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/home_page_blue</item>
         <item name="android:navigationBarColor">@color/home_page_purple</item>
+        <item name="android:windowBackground">@color/home_page_blue</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">

@@ -10,7 +10,7 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
 
     companion object {
 
-        private const val FAKE_DATA_LOADING_DELAY = 1200L
+        const val FAKE_DATA_LOADING_DELAY = 1200L
     }
 
     var shouldKeepSplashScreenVisible = true
@@ -19,6 +19,7 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
         fakeDataLoading()
     }
 
+    // TODO: Imitate data loading
     private fun fakeDataLoading() =
         viewModelScope.launch {
             delay(FAKE_DATA_LOADING_DELAY)

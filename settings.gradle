@@ -15,6 +15,7 @@ dependencyResolutionManagement {
 rootProject.name = "Weather-JC"
 include ':app'
 include ':feature:hourly_forecast'
+include ':feature:splash_screen'
 include ':foundation:dialog'
 include ':foundation:resources'
 include ':library:locale'

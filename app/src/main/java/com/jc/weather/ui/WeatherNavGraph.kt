@@ -9,6 +9,7 @@ import com.jc.weather.home_page.HomePage
 import com.jc.weather.home_page.HomePageViewModel
 import com.jc.weather.hourly_forecast.HourlyForecastListPageViewModel
 import com.jc.weather.hourly_forecast.WeatherDetailsPage
+import com.jc.weather.splash_screen.SplashScreenPage
 
 @Composable
 fun WeatherNavGraph(
@@ -19,6 +20,9 @@ fun WeatherNavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
+        composable(WeatherAppNavigation.SPLASH_SCREEN_ROUTE) {
+            SplashScreenPage()
+        }
         composable(WeatherAppNavigation.HOME_ROUTE) {
             val viewModel = hiltViewModel<HomePageViewModel>()
             HomePage(viewModel = viewModel) {

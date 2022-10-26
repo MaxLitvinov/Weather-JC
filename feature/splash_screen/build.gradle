@@ -1,13 +1,11 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
     id 'org.jlleitschuh.gradle.ktlint'
 }
 
 android {
-    namespace 'com.jc.weather.hourly_forecast'
+    namespace 'com.jc.weather.splash_screen'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
@@ -40,22 +38,11 @@ android {
 
 dependencies {
 
-    implementation project(':foundation:dialog')
     implementation project(':foundation:resources')
-    implementation project(':library:time')
-    implementation project(':service:open_weather_map')
 
+    implementation deps.app.androidx.activity_compose
     implementation deps.app.androidx.compose_material
     implementation deps.app.androidx.compose_ui
     implementation deps.app.androidx.compose_ui_tooling
-    implementation deps.app.androidx.core_ktx
-    implementation deps.app.androidx.lifecycle_runtime_ktx
-    implementation deps.app.androidx.lifecycle_viewmodel_compose
-
-    implementation deps.app.glide
-    implementation deps.app.google.hilt_android
-    kapt deps.app.google.hilt_compiler
-
-    androidTestImplementation deps.test.junit_ext
-    testImplementation deps.test.junit
+    implementation deps.app.androidx.compose_ui_tooling_preview
 }
