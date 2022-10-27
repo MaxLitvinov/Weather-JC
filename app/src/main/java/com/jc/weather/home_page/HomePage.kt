@@ -1,6 +1,7 @@
 package com.jc.weather.home_page
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +19,7 @@ import com.jc.weather.dialog.ProgressDialog
 import com.jc.weather.home_page.model.DayForecast
 import com.jc.weather.home_page.ui.ErrorDialog
 import com.jc.weather.home_page.ui.WeatherScreen
+import com.jc.weather.view.RetryScreen
 
 @Composable
 fun HomePage(
@@ -36,13 +38,17 @@ fun HomePage(
                 endY = getDisplayHeight()
             )
         )
-        .verticalScroll(state = rememberScrollState())
+        .verticalScroll(state = rememberScrollState()),
+    verticalArrangement = Arrangement.Center
 ) {
     viewModel.fetchWeather()
     when (val uiState = viewModel.uiState.collectAsState().value) {
         is HomePageViewModel.UiState.Loading -> ProgressDialog()
         is HomePageViewModel.UiState.Success -> WeatherScreen(uiState.weatherModel, onDayForecastClick)
-        is HomePageViewModel.UiState.Failure -> ErrorDialog(uiState.message)
+        is HomePageViewModel.UiState.Failure -> {
+            RetryScreen { viewModel.retry() }
+            ErrorDialog(uiState.message)
+        }
     }
 }
 
