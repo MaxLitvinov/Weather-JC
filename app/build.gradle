@@ -102,15 +102,16 @@ dependencies {
     implementation project(':service:open_weather_map')
 
     implementation deps.app.androidx.activity_compose
-    implementation deps.app.androidx.compose_tooling
+    implementation deps.app.androidx.compose_material
     implementation deps.app.androidx.compose_ui
+    implementation deps.app.androidx.compose_ui_tooling_preview
     implementation deps.app.androidx.constraintlayout_compose
     implementation deps.app.androidx.core_ktx
+    implementation deps.app.androidx.core_splashscreen
     implementation deps.app.androidx.hilt_navigation_compose
     implementation deps.app.androidx.hilt_navigation_fragment
     implementation deps.app.androidx.lifecycle_runtime_ktx
     implementation deps.app.androidx.lifecycle_viewmodel_compose
-    implementation deps.app.androidx.material
 
     implementation deps.app.glide
     implementation deps.app.google.gson

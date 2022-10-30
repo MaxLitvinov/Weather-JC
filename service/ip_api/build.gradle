@@ -43,7 +43,7 @@ dependencies {
 
     implementation project(':service:api_client')
 
-    implementation deps.app.androidx.material
+    implementation deps.app.androidx.compose_material
 
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler

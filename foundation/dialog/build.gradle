@@ -39,7 +39,7 @@ dependencies {
     implementation project(':foundation:resources')
 
     implementation deps.app.androidx.core_ktx
-    implementation deps.app.androidx.compose_tooling
+    implementation deps.app.androidx.compose_material
     implementation deps.app.androidx.compose_ui
-    implementation deps.app.androidx.material
+    implementation deps.app.androidx.compose_ui_tooling_preview
 }
