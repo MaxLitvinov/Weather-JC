@@ -31,6 +31,7 @@ import com.jc.weather.R
 import com.jc.weather.foundation.resources.WeatherJCTheme
 import com.jc.weather.home_page.model.DayForecast
 import com.jc.weather.home_page.model.WeatherModel
+import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -87,9 +88,11 @@ private fun CityButton(model: WeatherModel, textStyle: TextStyle) {
 @Composable
 private fun Image(model: WeatherModel) {
     GlideImage(
-        imageModel = model.iconUrl,
+        imageModel = { model.iconUrl },
         modifier = Modifier.height(200.dp),
-        contentDescription = model.weatherDescription,
+        imageOptions = ImageOptions(
+            contentDescription = model.weatherDescription
+        ),
         previewPlaceholder = R.drawable.ic_launcher_foreground,
         loading = {
             Box(modifier = Modifier.matchParentSize()) {

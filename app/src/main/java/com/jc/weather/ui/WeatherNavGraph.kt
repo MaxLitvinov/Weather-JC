@@ -13,7 +13,7 @@ import com.jc.weather.hourly_forecast.WeatherDetailsPage
 @Composable
 fun WeatherNavGraph(
     navController: NavHostController,
-    startDestination: String = WeatherAppNavigation.HOME_ROUTE,
+    startDestination: String = WeatherAppNavigation.HOME_ROUTE
 ) {
     NavHost(
         navController = navController,

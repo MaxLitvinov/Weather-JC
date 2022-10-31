@@ -25,7 +25,6 @@ android {
         release {
             buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
 
-            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

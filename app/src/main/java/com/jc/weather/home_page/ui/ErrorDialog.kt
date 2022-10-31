@@ -48,7 +48,7 @@ private fun Title() = Text(
     fontSize = 16.sp,
     fontWeight = FontWeight.Bold,
     text = stringResource(id = R.string.dialog_title_error_occurred),
-    textAlign = TextAlign.Center,
+    textAlign = TextAlign.Center
 )
 
 @Composable
