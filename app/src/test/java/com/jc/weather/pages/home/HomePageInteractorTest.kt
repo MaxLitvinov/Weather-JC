@@ -180,4 +180,59 @@ class HomePageInteractorTest {
 
         assertEquals(expectedUiState, actualUiState)
     }
+
+    @Test
+    fun `Check retry fetching weather`() = runBlocking {
+        val ipDomainResult = mockk<IpDomainResult.Success>(relaxed = true) {
+            every { lat } returns fakeLatitude
+            every { lon } returns fakeLongitude
+            every { city } returns fakeCity
+        }
+        coEvery { ipRepository.fetchLocation() } returns ipDomainResult
+
+        val weatherDomainResultFailure = mockk<WeatherDomainResult.Failure>(relaxed = true) {
+            every { error } returns fakeError
+        }
+        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } returns weatherDomainResultFailure
+
+        var actualUiState: HomePageViewModel.UiState = interactor.fetchWeather()
+
+        var expectedUiState: HomePageViewModel.UiState = HomePageViewModel.UiState.Failure(fakeError)
+
+        assertEquals(expectedUiState, actualUiState)
+
+        val weatherDomainResultSuccess = mockk<WeatherDomainResult.Success>(relaxed = true) {
+            every { model } returns mockk(relaxed = true) {
+                every { latitude } returns 33.8743F
+                every { longitude } returns -84.4653F
+            }
+        }
+        coEvery { weatherForecastRepository.fetchWeather("$fakeLatitude", "$fakeLongitude") } returns weatherDomainResultSuccess
+
+        coEvery { weatherDataStoreRepository.saveData(weatherDomainResultSuccess.model) } just Runs
+
+        val weatherUiModel = mockk<WeatherModel>(relaxed = true) {
+            every { city } returns fakeCity
+            every { iconUrl } returns fakeIconUrl
+            every { temperature } returns fakeTemperature
+            every { weatherDescription } returns fakeDescription
+            every { dailyForecasts } returns listOf()
+        }
+        every { weatherDomainModelMapper.mapToUiModel(weatherDomainResultSuccess.model, fakeCity) } returns weatherUiModel
+
+        actualUiState = interactor.fetchWeather()
+
+        coVerify { weatherDataStoreRepository.saveData(weatherDomainResultSuccess.model) }
+
+        val expectedWeatherModel = WeatherModel(
+            city = fakeCity,
+            iconUrl = fakeIconUrl,
+            temperature = fakeTemperature,
+            weatherDescription = fakeDescription,
+            dailyForecasts = listOf()
+        )
+        expectedUiState = HomePageViewModel.UiState.Success(expectedWeatherModel)
+
+        assertEquals(expectedUiState, actualUiState)
+    }
 }

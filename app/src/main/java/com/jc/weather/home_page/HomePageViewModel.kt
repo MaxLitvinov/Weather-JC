@@ -25,6 +25,11 @@ class HomePageViewModel @Inject constructor(
         }
     }
 
+    fun retry() {
+        _uiState.value = UiState.Loading
+        fetchWeather()
+    }
+
     sealed class UiState {
 
         object Loading : UiState()
