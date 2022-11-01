@@ -15,6 +15,7 @@ class TimestampProvider @Inject constructor(
 
     companion object {
 
+        private const val YEAR_MONTH_DAY_FORMAT = "YY.MM.dd"
         private const val DAY_MONTH_FORMAT = "dd.MM"
         private const val DAY_MONTH_DAY_NAME_FORMAT = "dd.MM EEEE"
         private const val HOUR_MIN_FORMAT = "HH:mm"
@@ -51,4 +52,11 @@ class TimestampProvider @Inject constructor(
      * Example: "12.09 Monday".
      */
     fun toDayMonthAndDayName(dateInSeconds: Long): String = mapTo(dateInSeconds, DAY_MONTH_DAY_NAME_FORMAT)
+
+    /**
+     * Get date formatted as [YEAR_MONTH_DAY_FORMAT].
+     *
+     * Example: "2022-12-31".
+     */
+    fun toYearMonthDay(dateInSeconds: Long): String = mapTo(dateInSeconds, YEAR_MONTH_DAY_FORMAT)
 }

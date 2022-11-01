@@ -53,9 +53,11 @@ class DailyDtoMapperTest {
         every { temperatureDtoMapper.mapToDomainModel(temperatureDto) } returns temperatureDomainModel
         every { feelsLikeDtoMapper.mapToDomainModel(feelsLikeDto) } returns feelsLikeDomainModel
 
-        val expectedDomainModel = DailyDomainModel(time = 1663146000, sunriseTime = 1663126067, sunsetTime = 1663172008, moonriseTime = 1663177560, moonsetTime = 1663143240, moonPhase = 0.64F, temperature = temperatureDomainModel, feelsLike = feelsLikeDomainModel, pressure = 1005, humidity = 69, dewPoint = 9.46F, windSpeed = 6.0F, windDeg = 254, windGust = 8.66F, clouds = 93, pop = 0.57F, rain = 2.39F, uvIndex = 2.34F, snow = null)
+        val timezoneOffset = 10800
+        val time = 1663146000L + timezoneOffset
+        val expectedDomainModel = DailyDomainModel(time = time, sunriseTime = 1663126067, sunsetTime = 1663172008, moonriseTime = 1663177560, moonsetTime = 1663143240, moonPhase = 0.64F, temperature = temperatureDomainModel, feelsLike = feelsLikeDomainModel, pressure = 1005, humidity = 69, dewPoint = 9.46F, windSpeed = 6.0F, windDeg = 254, windGust = 8.66F, clouds = 93, pop = 0.57F, rain = 2.39F, uvIndex = 2.34F, snow = null)
 
-        val actualDomainModel = dailyDtoMapper.mapToDomainModel(dailyDto)
+        val actualDomainModel = dailyDtoMapper.mapToDomainModel(timezoneOffset, dailyDto)
 
         Assert.assertEquals(expectedDomainModel, actualDomainModel)
     }

@@ -54,14 +54,14 @@ class WeatherDomainModelMapperTest {
 
         val domainModel = WeatherDomainModel(latitude = 51.5008F, longitude = 31.2945F, timezone = "Europe/Kiev", timezoneOffset = 10800, currentWeather = currentWeather, dailyForecasts = listOf(todayDomain, tomorrowDomain, day3Domain, day4Domain, day5Domain, day6Domain, day7Domain, day8Domain))
 
-        val today = DayForecast(dayName = "Today", morning = 0.0F, day = 11.52F, evening = 0.0F, night = 10.16F, min = 0.0F, max = 0.0F)
-        val tomorrow = DayForecast(dayName = "Tomorrow", morning = 0.0F, day = 16.1F, evening = 0.0F, night = 11.97F, min = 0.0F, max = 0.0F)
-        val thursday = DayForecast(dayName = "15.09 Thursday", morning = 0.0F, day = 17.9F, evening = 0.0F, night = 12.89F, min = 0.0F, max = 0.0F)
-        val friday = DayForecast(dayName = "16.09 Friday", morning = 0.0F, day = 17.68F, evening = 0.0F, night = 16.12F, min = 0.0F, max = 0.0F)
-        val saturday = DayForecast(dayName = "17.09 Saturday", morning = 0.0F, day = 13.14F, evening = 0.0F, night = 10.54F, min = 0.0F, max = 0.0F)
-        val sunday = DayForecast(dayName = "18.09 Sunday", morning = 0.0F, day = 13.34F, evening = 0.0F, night = 13.15F, min = 0.0F, max = 0.0F)
-        val monday = DayForecast(dayName = "19.09 Monday", morning = 0.0F, day = 10.93F, evening = 0.0F, night = 10.92F, min = 0.0F, max = 0.0F)
-        val tuesday = DayForecast(dayName = "20.09 Tuesday", morning = 0.0F, day = 14.94F, evening = 0.0F, night = 11.3F, min = 0.0F, max = 0.0F)
+        val today = DayForecast(id = 1L, dayName = "Today", morning = 0.0F, day = 11.52F, evening = 0.0F, night = 10.16F, min = 0.0F, max = 0.0F)
+        val tomorrow = DayForecast(id = 2L, dayName = "Tomorrow", morning = 0.0F, day = 16.1F, evening = 0.0F, night = 11.97F, min = 0.0F, max = 0.0F)
+        val thursday = DayForecast(id = 3L, dayName = "15.09 Thursday", morning = 0.0F, day = 17.9F, evening = 0.0F, night = 12.89F, min = 0.0F, max = 0.0F)
+        val friday = DayForecast(id = null, dayName = "16.09 Friday", morning = 0.0F, day = 17.68F, evening = 0.0F, night = 16.12F, min = 0.0F, max = 0.0F)
+        val saturday = DayForecast(id = null, dayName = "17.09 Saturday", morning = 0.0F, day = 13.14F, evening = 0.0F, night = 10.54F, min = 0.0F, max = 0.0F)
+        val sunday = DayForecast(id = null, dayName = "18.09 Sunday", morning = 0.0F, day = 13.34F, evening = 0.0F, night = 13.15F, min = 0.0F, max = 0.0F)
+        val monday = DayForecast(id = null, dayName = "19.09 Monday", morning = 0.0F, day = 10.93F, evening = 0.0F, night = 10.92F, min = 0.0F, max = 0.0F)
+        val tuesday = DayForecast(id = null, dayName = "20.09 Tuesday", morning = 0.0F, day = 14.94F, evening = 0.0F, night = 11.3F, min = 0.0F, max = 0.0F)
 
         every { dailyDomainModelMapper.mapToUiModel(todayDomain) } returns today
         every { dailyDomainModelMapper.mapToUiModel(tomorrowDomain) } returns tomorrow

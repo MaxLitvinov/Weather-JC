@@ -37,7 +37,7 @@ class WeatherDomainModelMapper @Inject constructor(
     private fun getDailyForecastList(
         domainModel: WeatherDomainModel
     ): List<DayForecast> = with(domainModel) {
-        val currentDayTime = currentWeather.currentTime + timezoneOffset
+        val currentDayTime = currentWeather.currentTime + timezoneOffset // TODO: Move timezone offset mapping into domain model layer
         val dailyForecasts = dailyForecasts.map(dailyDomainModelMapper::mapToUiModel)
         return transformDayNames(currentDayTime, dailyForecasts)
     }

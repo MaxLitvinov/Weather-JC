@@ -9,9 +9,9 @@ class DailyDtoMapper @Inject constructor(
     private val feelsLikeDtoMapper: FeelsLikeDtoMapper
 ) {
 
-    fun mapToDomainModel(dto: DailyDto) = with(dto) {
+    fun mapToDomainModel(timezoneOffset: Int, dto: DailyDto) = with(dto) {
         DailyDomainModel(
-            time = time,
+            time = time + timezoneOffset,
             sunriseTime = sunriseTime,
             sunsetTime = sunsetTime,
             moonriseTime = moonriseTime,

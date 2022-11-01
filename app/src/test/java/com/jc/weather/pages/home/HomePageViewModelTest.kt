@@ -39,14 +39,14 @@ class HomePageViewModelTest {
             "11.5",
             "Overcast clouds",
             listOf(
-                DayForecast("Today", 0.0F, 11.52F, 0.0F, 10.16F, 0.0F, 0.0F),
-                DayForecast("Tomorrow", 0.0F, 16.1F, 0.0F, 11.97F, 0.0F, 0.0F),
-                DayForecast("15.09 Thursday", 0.0F, 17.9F, 0.0F, 12.89F, 0.0F, 0.0F),
-                DayForecast("16.09 Friday", 0.0F, 17.68F, 0.0F, 16.12F, 0.0F, 0.0F),
-                DayForecast("17.09 Saturday", 0.0F, 13.14F, 0.0F, 10.54F, 0.0F, 0.0F),
-                DayForecast("18.09 Sunday", 0.0F, 13.34F, 0.0F, 13.15F, 0.0F, 0.0F),
-                DayForecast("19.09 Monday", 0.0F, 10.93F, 0.0F, 10.92F, 0.0F, 0.0F),
-                DayForecast("20.09 Tuesday", 0.0F, 14.94F, 0.0F, 11.3F, 0.0F, 0.0F)
+                DayForecast(1L, "Today", 0.0F, 11.52F, 0.0F, 10.16F, 0.0F, 0.0F),
+                DayForecast(2L, "Tomorrow", 0.0F, 16.1F, 0.0F, 11.97F, 0.0F, 0.0F),
+                DayForecast(3L, "15.09 Thursday", 0.0F, 17.9F, 0.0F, 12.89F, 0.0F, 0.0F),
+                DayForecast(null, "16.09 Friday", 0.0F, 17.68F, 0.0F, 16.12F, 0.0F, 0.0F),
+                DayForecast(null, "17.09 Saturday", 0.0F, 13.14F, 0.0F, 10.54F, 0.0F, 0.0F),
+                DayForecast(null, "18.09 Sunday", 0.0F, 13.34F, 0.0F, 13.15F, 0.0F, 0.0F),
+                DayForecast(null, "19.09 Monday", 0.0F, 10.93F, 0.0F, 10.92F, 0.0F, 0.0F),
+                DayForecast(null, "20.09 Tuesday", 0.0F, 14.94F, 0.0F, 11.3F, 0.0F, 0.0F)
             )
         )
         coEvery { interactor.fetchWeather() } returns HomePageViewModel.UiState.Success(weatherModel)

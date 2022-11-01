@@ -8,9 +8,12 @@ class HourlyDtoMapper @Inject constructor(
     private val weatherMapper: WeatherDetailsDtoMapper
 ) {
 
-    fun mapToDomainModel(dto: HourlyDto) = with(dto) {
+    fun mapToDomainModel(
+        timezoneOffset: Int,
+        dto: HourlyDto
+    ) = with(dto) {
         HourlyDomainModel(
-            time = time,
+            time = time + timezoneOffset,
             temperature = temperature,
             feelsLike = feelsLike,
             pressure = pressure,

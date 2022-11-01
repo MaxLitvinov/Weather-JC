@@ -12,7 +12,7 @@ import com.jc.weather.home_page.model.DayForecast
 @Composable
 fun dailyForecasts(
     dailyForecasts: List<DayForecast>,
-    onDayForecastClick: (DayForecast) -> Unit
+    onDayForecastClick: (Long) -> Unit
 ) = getDayNightTemperatureMaxLengths(dailyForecasts).let { (dayTempMaxLength, nightTempMaxLength) ->
     dailyForecasts.map { dayForecast ->
         val datNightTemp = stringResource(
@@ -21,8 +21,9 @@ fun dailyForecasts(
             getNightTemperature(dayForecast.night, nightTempMaxLength)
         )
         Spacer(Modifier.height(8.dp))
-        DayTextButton(dayForecast.dayName, datNightTemp) {
-            onDayForecastClick(dayForecast)
+        val isButtonEnabled = dayForecast.id != null
+        DayTextButton(dayForecast.dayName, datNightTemp, isButtonEnabled) {
+            dayForecast.id?.let { onDayForecastClick(it) }
         }
     }
 }

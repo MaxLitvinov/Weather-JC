@@ -22,9 +22,9 @@ class HourlyForecastListPageViewModel @Inject constructor(
     private val _expandedItemIdList = MutableStateFlow(listOf<Long>())
     val expandedItemIdList: StateFlow<List<Long>> get() = _expandedItemIdList
 
-    fun fetchDetails() {
+    fun fetchDetails(dayId: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            val hourlyForecastList = hourlyForecastRepository.fetchForecast()
+            val hourlyForecastList = hourlyForecastRepository.fetchForecast(dayId)
             _uiState.value = UiState.Loaded(hourlyForecastList)
         }
     }

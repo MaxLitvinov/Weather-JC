@@ -15,14 +15,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.jc.weather.R
 import com.jc.weather.dialog.ProgressDialog
-import com.jc.weather.home_page.model.DayForecast
 import com.jc.weather.home_page.ui.ErrorDialog
 import com.jc.weather.home_page.ui.WeatherScreen
 
 @Composable
 fun HomePage(
     viewModel: HomePageViewModel,
-    onDayForecastClick: (DayForecast) -> Unit,
+    onDayForecastClick: (Long) -> Unit,
 ) = Column(
     modifier = Modifier
         .fillMaxSize()

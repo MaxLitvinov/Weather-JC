@@ -25,7 +25,8 @@ import com.jc.weather.hourly_forecast.ui.ExpandableWeatherDetails
 
 @Composable
 fun WeatherDetailsPage(
-    viewModel: HourlyForecastListPageViewModel,
+    dayId: String?,
+    viewModel: HourlyForecastListPageViewModel
 ) = Column(
     modifier = Modifier
         .fillMaxSize()
@@ -40,7 +41,7 @@ fun WeatherDetailsPage(
             )
         )
 ) {
-    viewModel.fetchDetails()
+    viewModel.fetchDetails(dayId)
     when (val uiState = viewModel.uiState.collectAsState().value) {
         is HourlyForecastListPageViewModel.UiState.Loading -> ProgressDialog()
         is HourlyForecastListPageViewModel.UiState.Loaded -> {

@@ -9,6 +9,7 @@ data class WeatherModel(
 )
 
 data class DayForecast(
+    val id: Long?,
     var dayName: String,
     val morning: Float,
     val day: Float,
