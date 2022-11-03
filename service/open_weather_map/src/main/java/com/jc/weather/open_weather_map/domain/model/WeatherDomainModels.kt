@@ -13,7 +13,6 @@ data class WeatherDomainModel(
     val timezone: String,
     val timezoneOffset: Int,
     val currentWeather: CurrentWeatherDomainModel,
-    val hourlyForecasts: List<HourlyDomainModel>? = null,
     val dailyForecasts: List<DailyDomainModel>
 )
 
@@ -80,7 +79,8 @@ data class DailyDomainModel(
     val uvIndex: Float,
     val pop: Float,
     val rain: Float?,
-    val snow: Float?
+    val snow: Float?,
+    val hourlyForecasts: List<HourlyDomainModel>? = null
 )
 
 data class TemperatureDomainModel(

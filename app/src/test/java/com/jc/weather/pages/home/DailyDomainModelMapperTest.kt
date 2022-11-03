@@ -25,8 +25,9 @@ class DailyDomainModelMapperTest {
 
     @Test
     fun `Check domain model mapping into UI model`() {
-        val domainModel = DailyDomainModel(
-            time = 1663146000,
+        val dailyTime = 1663146000L
+        val dailyDomainModel = DailyDomainModel(
+            time = dailyTime,
             sunriseTime = 1663126067,
             sunsetTime = 1663172008,
             moonriseTime = 1663177560,
@@ -56,15 +57,17 @@ class DailyDomainModelMapperTest {
             pop = 0.57F,
             rain = 2.39F,
             uvIndex = 2.34F,
-            snow = null
+            snow = null,
+            hourlyForecasts = listOf(mockk())
         )
 
         val dayName = "14.09 Wednesday"
-        every { timestampProvider.toDayMonthAndDayName(domainModel.time) } returns dayName
+        every { timestampProvider.toDayMonthAndDayName(dailyDomainModel.time) } returns dayName
 
-        val actualUiModel = dailyDomainModelMapper.mapToUiModel(domainModel)
+        val actualUiModel = dailyDomainModelMapper.mapToUiModel(dailyDomainModel)
 
         val expectedUiModel = DayForecast(
+            id = dailyTime,
             dayName = dayName,
             morning = 9.34F,
             day = 15.07F,

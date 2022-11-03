@@ -37,7 +37,7 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun WeatherScreen(
     model: WeatherModel,
-    onDayForecastClick: (DayForecast) -> Unit
+    onDayForecastClick: (Long) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -60,8 +60,8 @@ fun WeatherScreen(
         Spacer(Modifier.height(8.dp))
         Description(model, textStyle)
         Spacer(Modifier.height(24.dp))
-        dailyForecasts(model.dailyForecasts) { dayForecast ->
-            onDayForecastClick(dayForecast)
+        dailyForecasts(model.dailyForecasts) { dayId ->
+            onDayForecastClick(dayId)
         }
     }
 }
@@ -136,14 +136,14 @@ private fun WeatherScreenPreview() {
         temperature = "20.07",
         weatherDescription = "Rainy",
         dailyForecasts = listOf(
-            DayForecast("Today", 0.0F, 15.83F, 0.0F, 10.67F, 0.0F, 0.0F),
-            DayForecast("Tomorrow", 0.0F, 7.61F, 0.0F, 9.52F, 0.0F, 0.0F),
-            DayForecast("24.09 Saturday", 0.0F, 9.14F, 0.0F, 10.8F, 0.0F, 0.0F),
-            DayForecast("25.09 Sunday", 0.0F, 14.91F, 0.0F, 13.3F, 0.0F, 0.0F),
-            DayForecast("26.09 Monday", 0.0F, 11.5F, 0.0F, 9.53F, 0.0F, 0.0F),
-            DayForecast("27.09 Tuesday", 0.0F, 10.99F, 0.0F, 10.41F, 0.0F, 0.0F),
-            DayForecast("28.09 Wednesday", 0.0F, 19.24F, 0.0F, 12.59F, 0.0F, 0.0F),
-            DayForecast("29.09 Thursday", 0.0F, 14.89F, 0.0F, 14.28F, 0.0F, 0.0F)
+            DayForecast(1L, "Today", 0.0F, 15.83F, 0.0F, 10.67F, 0.0F, 0.0F),
+            DayForecast(2L, "Tomorrow", 0.0F, 7.61F, 0.0F, 9.52F, 0.0F, 0.0F),
+            DayForecast(3L, "24.09 Saturday", 0.0F, 9.14F, 0.0F, 10.8F, 0.0F, 0.0F),
+            DayForecast(null, "25.09 Sunday", 0.0F, 14.91F, 0.0F, 13.3F, 0.0F, 0.0F),
+            DayForecast(null, "26.09 Monday", 0.0F, 11.5F, 0.0F, 9.53F, 0.0F, 0.0F),
+            DayForecast(null, "27.09 Tuesday", 0.0F, 10.99F, 0.0F, 10.41F, 0.0F, 0.0F),
+            DayForecast(null, "28.09 Wednesday", 0.0F, 19.24F, 0.0F, 12.59F, 0.0F, 0.0F),
+            DayForecast(null, "29.09 Thursday", 0.0F, 14.89F, 0.0F, 14.28F, 0.0F, 0.0F)
         )
     )
     WeatherJCTheme {

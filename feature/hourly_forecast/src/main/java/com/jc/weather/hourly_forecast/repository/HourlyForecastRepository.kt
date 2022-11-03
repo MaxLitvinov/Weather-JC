@@ -10,9 +10,16 @@ class HourlyForecastRepository @Inject constructor(
     private val mapper: WeatherDomainModelMapper
 ) {
 
-    suspend fun fetchForecast(): List<CollapsedModel> =
-        weatherDataStoreRepository.getData()
+    suspend fun fetchForecast(dayId: String?): List<CollapsedModel> {
+        if (dayId.isNullOrBlank()) {
+            return emptyList()
+        }
+        val dayTime = dayId.toLong()
+        return weatherDataStoreRepository.getData()
+            ?.dailyForecasts
+            ?.find { it.time == dayTime }
             ?.hourlyForecasts
             ?.map(mapper::mapToCollapsedModel)
             ?: emptyList()
+    }
 }

@@ -36,8 +36,9 @@ class HourlyDtoMapperTest {
             icon = weatherIcon
         )
 
+        val time = 1664974800L
         val dto = HourlyDto(
-            time = 1664974800,
+            time = 1664974800L,
             temperature = 11F,
             feelsLike = 10.22F,
             pressure = 1022,
@@ -61,10 +62,12 @@ class HourlyDtoMapperTest {
         )
         every { weatherMapper.mapToDomainModel(weatherDetailsDto) } returns weatherDetailsDomainModel
 
-        val actualModel = hourlyDtoMapper.mapToDomainModel(dto)
+        val timezoneOffset = 10800
+        val actualModel = hourlyDtoMapper.mapToDomainModel(timezoneOffset, dto)
 
+        val expectedTime = time + timezoneOffset
         val expectedModel = HourlyDomainModel(
-            time = 1664974800,
+            time = expectedTime,
             temperature = 11F,
             feelsLike = 10.22F,
             pressure = 1022,

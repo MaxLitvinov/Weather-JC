@@ -11,7 +11,8 @@ class DailyDomainModelMapper @Inject constructor(
 
     fun mapToUiModel(domainModel: DailyDomainModel) = with(domainModel.temperature) {
         DayForecast(
-            dayName = timestampProvider.toDayMonthAndDayName(domainModel.time),
+            id = domainModel.generateId(),
+            dayName = domainModel.generateDayName(),
             morning = morning,
             day = day,
             evening = evening,
@@ -20,4 +21,10 @@ class DailyDomainModelMapper @Inject constructor(
             max = max
         )
     }
+
+    private fun DailyDomainModel.generateId(): Long? =
+        hourlyForecasts?.let { time }
+
+    private fun DailyDomainModel.generateDayName(): String =
+        timestampProvider.toDayMonthAndDayName(time)
 }
