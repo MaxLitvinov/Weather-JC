@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomePageViewModel @Inject constructor(
-    private val interactor: HomePageInteractor,
+    private val interactor: HomePageInteractor
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
@@ -23,6 +23,11 @@ class HomePageViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = interactor.fetchWeather()
         }
+    }
+
+    fun retry() {
+        _uiState.value = UiState.Loading
+        fetchWeather()
     }
 
     sealed class UiState {

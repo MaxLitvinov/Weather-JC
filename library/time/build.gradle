@@ -35,9 +35,9 @@ dependencies {
 
     implementation project(':library:locale')
 
+    implementation deps.app.androidx.compose_material
+    implementation deps.app.androidx.core_ktx
+
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler
-
-    implementation deps.app.androidx.core_ktx
-    implementation deps.app.androidx.material
 }

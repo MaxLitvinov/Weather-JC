@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'org.jlleitschuh.gradle.ktlint'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 apply from: '../dependencies.gradle'
 
@@ -94,25 +96,32 @@ def renameApk(variant) {
 
 dependencies {
 
+    implementation platform(deps.app.google.firebase.bom)
+
     implementation project(':feature:hourly_forecast')
     implementation project(':foundation:dialog')
     implementation project(':foundation:resources')
+    implementation project(':foundation:view')
     implementation project(':library:time')
     implementation project(':service:ip_api')
     implementation project(':service:open_weather_map')
 
     implementation deps.app.androidx.activity_compose
-    implementation deps.app.androidx.compose_tooling
+    implementation deps.app.androidx.compose_material
     implementation deps.app.androidx.compose_ui
+    implementation deps.app.androidx.compose_ui_tooling_preview
     implementation deps.app.androidx.constraintlayout_compose
     implementation deps.app.androidx.core_ktx
+    implementation deps.app.androidx.core_splashscreen
     implementation deps.app.androidx.hilt_navigation_compose
     implementation deps.app.androidx.hilt_navigation_fragment
     implementation deps.app.androidx.lifecycle_runtime_ktx
     implementation deps.app.androidx.lifecycle_viewmodel_compose
-    implementation deps.app.androidx.material
+    implementation deps.app.androidx.navigation_compose
 
     implementation deps.app.glide
+    implementation deps.app.google.firebase.analytics
+    implementation deps.app.google.firebase.crashlytics
     implementation deps.app.google.gson
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler

@@ -36,6 +36,6 @@ android {
 
 dependencies {
 
+    implementation deps.app.androidx.compose_material
     implementation deps.app.androidx.core_ktx
-    implementation deps.app.androidx.material
 }

@@ -1,14 +1,12 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'kotlin-android'
     id 'org.jlleitschuh.gradle.ktlint'
 }
 apply from: '../../dependencies.gradle'
 
 android {
-    namespace 'com.jc.weather.locale'
+    namespace 'com.jc.weather.foundation.view'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
@@ -19,7 +17,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -29,13 +26,19 @@ android {
     kotlinOptions {
         jvmTarget = env.java_version
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
 }
 
 dependencies {
 
-    implementation deps.app.androidx.compose_material
-    implementation deps.app.androidx.core_ktx
+    implementation project(':foundation:resources')
 
-    implementation deps.app.google.hilt_android
-    kapt deps.app.google.hilt_compiler
+    implementation deps.app.androidx.compose_material
+    implementation deps.app.androidx.compose_ui
+    implementation deps.app.androidx.compose_ui_tooling_preview
 }
