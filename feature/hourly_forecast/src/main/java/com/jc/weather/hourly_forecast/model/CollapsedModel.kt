@@ -8,7 +8,7 @@ data class CollapsedModel(
     val humidity: Int,
     val generalDescription: String,
     val temperature: Float,
-    val details: ExpandedModel,
+    val details: ExpandedModel
 )
 
 data class ExpandedModel(
@@ -20,11 +20,11 @@ data class ExpandedModel(
     val visibility: Int,
     val rain: Float,
     val wind: WindModel,
-    val detailedDescription: String,
+    val detailedDescription: String
 )
 
 data class WindModel(
     val speed: Float,
     val deg: Int,
-    val gust: Float,
+    val gust: Float
 )

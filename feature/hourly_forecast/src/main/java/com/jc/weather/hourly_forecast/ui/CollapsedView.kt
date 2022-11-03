@@ -31,6 +31,7 @@ import com.jc.weather.foundation.resources.mainTextStyle
 import com.jc.weather.hourly_forecast.model.CollapsedModel
 import com.jc.weather.hourly_forecast.model.ExpandedModel
 import com.jc.weather.hourly_forecast.model.WindModel
+import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
 private val iconSize = 32.dp
@@ -108,9 +109,11 @@ private fun RowScope.Description(
         verticalAlignment = Alignment.CenterVertically
     ) {
         GlideImage(
-            imageModel = iconUrl,
+            imageModel = { iconUrl },
             modifier = Modifier.size(iconSize, iconSize),
-            contentDescription = null,
+            imageOptions = ImageOptions(
+                contentDescription = null
+            ),
             previewPlaceholder = R.drawable.ic_clouds
         )
         Text(

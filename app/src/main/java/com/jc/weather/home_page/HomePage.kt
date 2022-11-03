@@ -24,7 +24,7 @@ import com.jc.weather.view.RetryScreen
 @Composable
 fun HomePage(
     viewModel: HomePageViewModel,
-    onDayForecastClick: (DayForecast) -> Unit,
+    onDayForecastClick: (DayForecast) -> Unit
 ) = Column(
     modifier = Modifier
         .fillMaxSize()

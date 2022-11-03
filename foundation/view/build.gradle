@@ -6,7 +6,7 @@ plugins {
 apply from: '../../dependencies.gradle'
 
 android {
-    namespace 'com.jc.weather.view'
+    namespace 'com.jc.weather.foundation.view'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
@@ -38,7 +38,7 @@ dependencies {
 
     implementation project(':foundation:resources')
 
-    implementation deps.app.androidx.compose_tooling
+    implementation deps.app.androidx.compose_material
     implementation deps.app.androidx.compose_ui
-    implementation deps.app.androidx.material
+    implementation deps.app.androidx.compose_ui_tooling_preview
 }

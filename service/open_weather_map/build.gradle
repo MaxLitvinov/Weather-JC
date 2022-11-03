@@ -27,7 +27,6 @@ android {
             buildConfigField "String", "BASE_URL_OPEN_WEATHER_MAP", "\"https://api.openweathermap.org/\""
             buildConfigField "String", "OPEN_WEATHER_MAP_APP_ID", "\"978539e18a215484b0146ed80b932145\""
 
-            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

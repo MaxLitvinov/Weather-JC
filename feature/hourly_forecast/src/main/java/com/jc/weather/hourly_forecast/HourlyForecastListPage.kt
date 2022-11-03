@@ -25,7 +25,7 @@ import com.jc.weather.hourly_forecast.ui.ExpandableWeatherDetails
 
 @Composable
 fun WeatherDetailsPage(
-    viewModel: HourlyForecastListPageViewModel,
+    viewModel: HourlyForecastListPageViewModel
 ) = Column(
     modifier = Modifier
         .fillMaxSize()
