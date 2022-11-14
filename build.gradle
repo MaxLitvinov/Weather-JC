@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath deps.app.google.hilt_android_gradle_plugin
-        classpath 'org.jlleitschuh.gradle:ktlint-gradle:10.2.1'
+        classpath 'org.jlleitschuh.gradle:ktlint-gradle:11.0.0'
         classpath 'com.google.gms:google-services:4.3.14'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
     }

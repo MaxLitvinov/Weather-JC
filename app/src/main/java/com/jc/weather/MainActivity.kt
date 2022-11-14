@@ -3,6 +3,7 @@ package com.jc.weather
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.activity.ComponentActivity
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
     lateinit var viewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("TAGGGG", "MainActivity.onCreate()")
         installSplashScreen().apply {
             /* TODO: Keep splash screen displayed?
             setKeepOnScreenCondition(object : SplashScreen.KeepOnScreenCondition {

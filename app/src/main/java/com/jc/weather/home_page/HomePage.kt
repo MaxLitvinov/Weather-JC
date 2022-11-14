@@ -42,8 +42,12 @@ fun HomePage(
 ) {
     viewModel.fetchWeather()
     when (val uiState = viewModel.uiState.collectAsState().value) {
-        is HomePageViewModel.UiState.Loading -> ProgressDialog()
-        is HomePageViewModel.UiState.Success -> WeatherScreen(uiState.weatherModel, onDayForecastClick)
+        is HomePageViewModel.UiState.Loading -> {
+            ProgressDialog()
+        }
+        is HomePageViewModel.UiState.Success -> {
+            WeatherScreen(uiState.weatherModel, onDayForecastClick)
+        }
         is HomePageViewModel.UiState.Failure -> {
             RetryScreen { viewModel.retry() }
             ErrorDialog(uiState.message)

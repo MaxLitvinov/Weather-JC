@@ -12,7 +12,10 @@ apply from: '../dependencies.gradle'
 int appPhase = 1
 int feature = 0
 int fixes = 0
-def buildVersion = String.format("%d.%d.%d", appPhase, feature, fixes)
+def buildVersion = String.format("%d.%d", appPhase, feature)
+if (fixes == 0) {
+    buildVersion = String.format("%s.%d", buildVersion, fixes)
+}
 
 android {
     compileSdk rootProject.compileSdkVersion
@@ -62,6 +65,9 @@ android {
 
     kotlinOptions {
         jvmTarget = env.java_version
+        // TODO: Remove freeCompilerArgs option
+        //freeCompilerArgs += ['-Xno-param-assertions']
+        freeCompilerArgs += ['-Xextended-compiler-checks']
     }
 
     buildFeatures {
@@ -104,6 +110,7 @@ dependencies {
     implementation project(':foundation:view')
     implementation project(':library:time')
     implementation project(':service:ip_api')
+    implementation project(':service:logger')
     implementation project(':service:open_weather_map')
 
     implementation deps.app.androidx.activity_compose
