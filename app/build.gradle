@@ -20,6 +20,21 @@ if (fixes == 0) {
 android {
     compileSdk rootProject.compileSdkVersion
 
+    signingConfigs {
+        debug {
+            storeFile file("keys/weather_jc_debug.key")
+            storePassword "Xl4MCAE3t&@VmyAomUstWP0%5JgdNHVU@rk7t9TJfXp*eanf7s95mQ5f*@K73zg%"
+            keyAlias "weather-jc-debug-key"
+            keyPassword "Xl4MCAE3t&@VmyAomUstWP0%5JgdNHVU@rk7t9TJfXp*eanf7s95mQ5f*@K73zg%"
+        }
+        release {
+            storeFile file("keys/weather_jc_release.key")
+            storePassword "kvWB1q7*5!X2gAucQKuQ##ZM@BXNw&PHG0uE^uF23lc8JhCN28pZ@*D6SP1Jj1Ba"
+            keyAlias "weather-jc-release-key"
+            keyPassword "kvWB1q7*5!X2gAucQKuQ##ZM@BXNw&PHG0uE^uF23lc8JhCN28pZ@*D6SP1Jj1Ba"
+        }
+    }
+
     defaultConfig {
         applicationId "com.jc.weather"
         minSdk rootProject.minSdkVersion
@@ -43,6 +58,8 @@ android {
             buildConfigField "String", "OPEN_WEATHER_MAP_APP_ID", "\"978539e18a215484b0146ed80b932145\""
 
             buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
+
+            signingConfig signingConfigs.debug
         }
         release {
             manifestPlaceholders = [appNameSuffix: ""]
@@ -55,6 +72,7 @@ android {
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -65,9 +83,6 @@ android {
 
     kotlinOptions {
         jvmTarget = env.java_version
-        // TODO: Remove freeCompilerArgs option
-        //freeCompilerArgs += ['-Xno-param-assertions']
-        freeCompilerArgs += ['-Xextended-compiler-checks']
     }
 
     buildFeatures {

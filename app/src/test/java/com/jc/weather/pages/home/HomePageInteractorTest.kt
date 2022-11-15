@@ -2,7 +2,7 @@ package com.jc.weather.pages.home
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.jc.weather.R
+import com.jc.weather.foundation.resources.R
 import com.jc.weather.home_page.HomePageViewModel
 import com.jc.weather.home_page.core.HomePageInteractor
 import com.jc.weather.home_page.mapper.WeatherDomainModelMapper

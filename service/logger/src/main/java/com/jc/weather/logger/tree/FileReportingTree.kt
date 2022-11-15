@@ -14,7 +14,7 @@ class FileReportingTree constructor(
 
     companion object {
 
-        private const val PATH = "Log"
+        private const val PATH = "Weather-JC app logs"
     }
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {

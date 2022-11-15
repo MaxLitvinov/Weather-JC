@@ -1,7 +1,7 @@
 package com.jc.weather.home_page.core
 
 import android.content.Context
-import com.jc.weather.R
+import com.jc.weather.foundation.resources.R
 import com.jc.weather.home_page.HomePageViewModel
 import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
 import com.jc.weather.ip_api.domain.model.IpDomainResult
