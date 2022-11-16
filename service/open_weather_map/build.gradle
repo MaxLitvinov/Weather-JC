@@ -44,6 +44,7 @@ dependencies {
 
     implementation project(':library:time')
     implementation project(':service:api_client')
+    implementation project(':service:logger')
 
     implementation deps.app.androidx.datastore
 

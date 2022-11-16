@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
+import com.jc.weather.logger.Logger
 import com.jc.weather.open_weather_map.BuildConfig
 import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
 import kotlinx.coroutines.flow.first
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 class WeatherDataStoreRepository @Inject constructor(
     private val gson: Gson,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    private val logger: Logger
 ) {
 
     companion object {
@@ -33,7 +35,7 @@ class WeatherDataStoreRepository @Inject constructor(
                 settings[WEATHER_DATA_PREFS_KEY] = json
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.report(e)
         }
     }
 
@@ -47,7 +49,7 @@ class WeatherDataStoreRepository @Inject constructor(
                 return mapToDomainModel(json)
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.report(e)
         }
         return null
     }
