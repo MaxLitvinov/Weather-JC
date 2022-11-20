@@ -10,7 +10,7 @@ plugins {
 apply from: '../dependencies.gradle'
 
 int appPhase = 1
-int feature = 0
+int feature = 1
 int fixes = 0
 def buildVersion = String.format("%d.%d", appPhase, feature)
 if (fixes == 0) {
