@@ -4,11 +4,14 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'org.jlleitschuh.gradle.ktlint'
+    // TODO: Do these need to work with Firebase?
+    // id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 apply from: '../../dependencies.gradle'
 
 android {
-    namespace 'com.jc.weather.ip_api'
+    namespace 'com.jc.weather.logger'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
@@ -19,12 +22,7 @@ android {
     }
 
     buildTypes {
-        debug {
-            buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
-        }
         release {
-            buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
-
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -40,22 +38,15 @@ android {
 
 dependencies {
 
-    implementation project(':service:api_client')
-    implementation project(':service:logger')
+    implementation platform(deps.app.google.firebase.bom)
 
-    implementation deps.app.androidx.compose_material
+    implementation project(':library:locale')
+    implementation project(':library:time')
 
+    implementation deps.app.androidx.core_ktx
+    implementation deps.app.log.timber
+
+    implementation deps.app.google.firebase.crashlytics
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler
-
-    implementation deps.app.squareup.converter_gson
-    implementation deps.app.squareup.retrofit
-
-    implementation deps.test.core_testing
-    implementation deps.test.mockk
-    implementation deps.test.mockk_android
-
-    androidTestImplementation deps.test.espresso_core
-    androidTestImplementation deps.test.junit_ext
-    testImplementation deps.test.junit
 }

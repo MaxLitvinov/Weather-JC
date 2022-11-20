@@ -14,8 +14,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.jc.weather.R
 import com.jc.weather.dialog.ProgressDialog
+import com.jc.weather.foundation.resources.R
 import com.jc.weather.home_page.ui.ErrorDialog
 import com.jc.weather.home_page.ui.WeatherScreen
 import com.jc.weather.view.RetryScreen
@@ -42,8 +42,12 @@ fun HomePage(
 ) {
     viewModel.fetchWeather()
     when (val uiState = viewModel.uiState.collectAsState().value) {
-        is HomePageViewModel.UiState.Loading -> ProgressDialog()
-        is HomePageViewModel.UiState.Success -> WeatherScreen(uiState.weatherModel, onDayForecastClick)
+        is HomePageViewModel.UiState.Loading -> {
+            ProgressDialog()
+        }
+        is HomePageViewModel.UiState.Success -> {
+            WeatherScreen(uiState.weatherModel, onDayForecastClick)
+        }
         is HomePageViewModel.UiState.Failure -> {
             RetryScreen { viewModel.retry() }
             ErrorDialog(uiState.message)

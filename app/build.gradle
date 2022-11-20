@@ -12,10 +12,28 @@ apply from: '../dependencies.gradle'
 int appPhase = 1
 int feature = 0
 int fixes = 0
-def buildVersion = String.format("%d.%d.%d", appPhase, feature, fixes)
+def buildVersion = String.format("%d.%d", appPhase, feature)
+if (fixes == 0) {
+    buildVersion = String.format("%s.%d", buildVersion, fixes)
+}
 
 android {
     compileSdk rootProject.compileSdkVersion
+
+    signingConfigs {
+        debug {
+            storeFile file("keys/weather_jc_debug.key")
+            storePassword "Xl4MCAE3t&@VmyAomUstWP0%5JgdNHVU@rk7t9TJfXp*eanf7s95mQ5f*@K73zg%"
+            keyAlias "weather-jc-debug-key"
+            keyPassword "Xl4MCAE3t&@VmyAomUstWP0%5JgdNHVU@rk7t9TJfXp*eanf7s95mQ5f*@K73zg%"
+        }
+        release {
+            storeFile file("keys/weather_jc_release.key")
+            storePassword "kvWB1q7*5!X2gAucQKuQ##ZM@BXNw&PHG0uE^uF23lc8JhCN28pZ@*D6SP1Jj1Ba"
+            keyAlias "weather-jc-release-key"
+            keyPassword "kvWB1q7*5!X2gAucQKuQ##ZM@BXNw&PHG0uE^uF23lc8JhCN28pZ@*D6SP1Jj1Ba"
+        }
+    }
 
     defaultConfig {
         applicationId "com.jc.weather"
@@ -40,6 +58,8 @@ android {
             buildConfigField "String", "OPEN_WEATHER_MAP_APP_ID", "\"978539e18a215484b0146ed80b932145\""
 
             buildConfigField "String", "BASE_URL_IP_API", "\"http://ip-api.com/\""
+
+            signingConfig signingConfigs.debug
         }
         release {
             manifestPlaceholders = [appNameSuffix: ""]
@@ -52,6 +72,7 @@ android {
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -104,6 +125,7 @@ dependencies {
     implementation project(':foundation:view')
     implementation project(':library:time')
     implementation project(':service:ip_api')
+    implementation project(':service:logger')
     implementation project(':service:open_weather_map')
 
     implementation deps.app.androidx.activity_compose

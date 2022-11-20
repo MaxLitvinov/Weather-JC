@@ -47,7 +47,7 @@ sealed class NetworkResponse<S : Any, F : Any> {
 }
 
 suspend fun <S : Any, F : Any> NetworkResponse<S, F>.onSuccess(
-    executable: suspend(S) -> Unit
+    executable: suspend (S) -> Unit
 ): NetworkResponse<S, F> = apply {
     if (this is NetworkResponse.Success) {
         executable(body)
@@ -55,7 +55,7 @@ suspend fun <S : Any, F : Any> NetworkResponse<S, F>.onSuccess(
 }
 
 suspend fun <S : Any, F : Any> NetworkResponse<S, F>.onServerError(
-    executable: suspend(code: Int?, message: String?) -> Unit
+    executable: suspend (code: Int?, message: String?) -> Unit
 ): NetworkResponse<S, F> = apply {
     if (this is NetworkResponse.ServerError) {
         executable(code, error?.message)
@@ -63,7 +63,7 @@ suspend fun <S : Any, F : Any> NetworkResponse<S, F>.onServerError(
 }
 
 suspend fun <S : Any, F : Any> NetworkResponse<S, F>.onNetworkError(
-    executable: suspend(message: String?) -> Unit
+    executable: suspend (message: String?) -> Unit
 ): NetworkResponse<S, F> = apply {
     if (this is NetworkResponse.NetworkError) {
         executable(error.message)
@@ -71,7 +71,7 @@ suspend fun <S : Any, F : Any> NetworkResponse<S, F>.onNetworkError(
 }
 
 suspend fun <S : Any, F : Any> NetworkResponse<S, F>.onUnknownError(
-    executable: suspend(message: String?) -> Unit
+    executable: suspend (message: String?) -> Unit
 ): NetworkResponse<S, F> = apply {
     if (this is NetworkResponse.UnknownError) {
         executable(error.message)

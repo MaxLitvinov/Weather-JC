@@ -1,6 +1,7 @@
 package com.jc.weather.open_weather_map
 
 import com.jc.weather.api_client.di.factory.network_response.NetworkResponse
+import com.jc.weather.logger.Logger
 import com.jc.weather.open_weather_map.data.api.OpenWeatherMapApi
 import com.jc.weather.open_weather_map.data.dto.CurrentDto
 import com.jc.weather.open_weather_map.data.dto.DailyDto
@@ -18,9 +19,12 @@ import com.jc.weather.open_weather_map.domain.model.WeatherDetailsDomainModel
 import com.jc.weather.open_weather_map.domain.model.WeatherDomainModel
 import com.jc.weather.open_weather_map.domain.model.WeatherDomainResult
 import com.jc.weather.open_weather_map.domain.repository.WeatherForecastRepository
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -32,12 +36,14 @@ class WeatherForecastRepositoryTest {
     private lateinit var api: OpenWeatherMapApi
     private lateinit var weatherDtoMapper: WeatherDtoMapper
     private lateinit var repository: WeatherForecastRepository
+    private lateinit var logger: Logger
 
     @Before
     fun setup() {
         api = mockk()
         weatherDtoMapper = mockk()
-        repository = WeatherForecastRepository(api, weatherDtoMapper)
+        logger = mockk()
+        repository = WeatherForecastRepository(api, weatherDtoMapper, logger)
     }
 
     @Test
@@ -87,16 +93,19 @@ class WeatherForecastRepositoryTest {
 
         val errorCode = 500
         val errorMessage = "Server error message"
+        val fullErrorMessage = "Server error code: $errorCode, message: $errorMessage"
 
         val response = mockk<NetworkResponse.ServerError<WeatherDto, Any>> {
             every { code } returns errorCode
             every { error } returns Exception(errorMessage)
         }
         coEvery { api.fetchWeather(latitude, longitude) } returns response
+        every { logger.report(fullErrorMessage) } just Runs
 
         val actualResult: WeatherDomainResult = repository.fetchWeather(latitude, longitude)
+        verify { logger.report(fullErrorMessage) }
 
-        val expectedResult = WeatherDomainResult.Failure("Server error code: $errorCode, message: $errorMessage")
+        val expectedResult = WeatherDomainResult.Failure(fullErrorMessage)
 
         assertEquals(expectedResult, actualResult)
     }
@@ -108,17 +117,19 @@ class WeatherForecastRepositoryTest {
 
         val errorBody: Any? = null
         val errorMessage = "Network error message"
+        val fullErrorMessage = "Network error body - $errorBody, message - $errorMessage"
 
         val response = mockk<NetworkResponse.NetworkError<WeatherDto, Any>> {
             every { body } returns errorBody
             every { error } returns IOException(errorMessage)
         }
         coEvery { api.fetchWeather(latitude, longitude) } returns response
+        every { logger.report(fullErrorMessage) } just Runs
 
         val actualResult: WeatherDomainResult = repository.fetchWeather(latitude, longitude)
+        verify { logger.report(fullErrorMessage) }
 
-        val expectedErrorMessage = "Network error body - $errorBody, message - $errorMessage"
-        val expectedResult = WeatherDomainResult.Failure(expectedErrorMessage)
+        val expectedResult = WeatherDomainResult.Failure(fullErrorMessage)
 
         assertEquals(expectedResult, actualResult)
     }
@@ -129,17 +140,19 @@ class WeatherForecastRepositoryTest {
         val longitude = "31.2945"
 
         val errorCode = 500
+        val fullErrorMessage = "Unknown error code - $errorCode"
 
         val response = mockk<NetworkResponse.UnknownError<WeatherDto, Any>> {
             every { code } returns errorCode
             every { error } returns Exception("Unknown error message")
         }
         coEvery { api.fetchWeather(latitude, longitude) } returns response
+        every { logger.report(fullErrorMessage) } just Runs
 
         val actualResult: WeatherDomainResult = repository.fetchWeather(latitude, longitude)
+        verify { logger.report(fullErrorMessage) }
 
-        val expectedErrorMessage = "Unknown error code - $errorCode"
-        val expectedResult = WeatherDomainResult.Failure(expectedErrorMessage)
+        val expectedResult = WeatherDomainResult.Failure(fullErrorMessage)
 
         assertEquals(expectedResult, actualResult)
     }

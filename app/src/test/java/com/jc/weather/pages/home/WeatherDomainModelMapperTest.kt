@@ -1,7 +1,7 @@
 package com.jc.weather.pages.home
 
 import android.content.Context
-import com.jc.weather.R
+import com.jc.weather.foundation.resources.R
 import com.jc.weather.home_page.mapper.DailyDomainModelMapper
 import com.jc.weather.home_page.mapper.WeatherDomainModelMapper
 import com.jc.weather.home_page.model.DayForecast

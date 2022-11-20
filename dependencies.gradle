@@ -50,6 +50,9 @@ ext {
                             converter_gson     : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
                             logging_interceptor: "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6",
                             retrofit           : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                    ],
+                    log     : [
+                            timber: "com.jakewharton.timber:timber:5.0.1"
                     ]
             ],
             test: [
